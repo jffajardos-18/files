@@ -49,8 +49,9 @@
 
 
   const srcLink = document.getElementById("srcLink");
-  srcLink.href = CSV_URL;
-  srcLink.textContent = CSV_URL;
+  srcLink.href = CSV_TARGET;
+  srcLink.textContent = CSV_TARGET;
+
 
   const statusEl = document.getElementById("status");
   const metaEl = document.getElementById("meta");
@@ -180,6 +181,9 @@
       if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
 
       const text = await res.text();
+      if (text.trim().startsWith("<")) {
+        throw new Error("Proxy returned HTML (not CSV). The CSV may be blocked/rate-limited.");
+      }
       setStatus("Parsing…");
       const parsed = parseCSV(text);
 
