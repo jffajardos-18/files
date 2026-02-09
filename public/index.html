@@ -1,11 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>CSV Viewer</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    h1 { margin: 0 0 8px 0; }
+    .muted { color: #555; }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin: 12px 0 16px; }
+    input { padding: 8px 10px; min-width: 260px; }
+    button { padding: 8px 10px; cursor: pointer; }
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td { border: 1px solid #ddd; padding: 6px 8px; vertical-align: top; }
+    th { position: sticky; top: 0; background: #f7f7f7; cursor: pointer; user-select: none; }
+    tr:nth-child(even) td { background: #fafafa; }
+    .pill { display:inline-block; padding:2px 8px; border:1px solid #ddd; border-radius:999px; font-size:12px; }
+    .error { color: #b00020; white-space: pre-wrap; }
+    a { color: inherit; }
+  </style>
 </head>
 <body>
-  <h1>CSV visualization coming soon</h1>
-  <p>If you can see this, GitHub Pages is working.</p>
-</body>
-</html>
+  <h1>Hot Companies — CSV Viewer</h1>
+  <div class="muted">
+    Source:
+    <a id="srcLink" target="_blank" rel="noopener"></a>
+  </di
