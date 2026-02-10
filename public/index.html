@@ -837,9 +837,9 @@
           <div class="kv-item"><div class="kv-k">L1</div><div class="kv-v">${esc(r.l1_proxi || "—")}</div></div>
           <div class="kv-item"><div class="kv-k">Industry</div><div class="kv-v">${esc(r.industry_proxi || "—")}</div></div>
           <div class="kv-item"><div class="kv-k">FTE</div><div class="kv-v">${esc(r.fte || "—")}</div></div>
-          <div class="kv-item"><div class="kv-k">FTE growth</div><div class="kv-v">${esc(r.fte_growth || "—")}</div></div>
+          <div class="kv-item"><div class="kv-k">FTE growth</div><div class="kv-v">${r.fte_growth ? fmtNum(asNum(r.fte_growth) * 100, 2) + '%' : "—"}</div></div>
           <div class="kv-item"><div class="kv-k">Competitors</div><div class="kv-v">${esc(r.n_competitors || "—")}</div></div>
-          <div class="kv-item"><div class="kv-k">Project index</div><div class="kv-v">${esc(r.n_project_index || "—")}</div></div>
+          <div class="kv-item"><div class="kv-k">Project index</div><div class="kv-v">${r.n_project_index ? fmtNum(asNum(r.n_project_index), 2) : "—"}</div></div>
 
           <div class="kv-item"><div class="kv-k">Transaction date</div><div class="kv-v">${esc(r.transaction_date || "—")}</div></div>
           <div class="kv-item"><div class="kv-k">Transaction type</div><div class="kv-v">${esc(r.transaction_type || "—")}</div></div>
@@ -860,7 +860,7 @@
 
           <div class="barbox">
             <div class="bar-top">
-              <div class="bar-k">company_priority_test</div>
+              <div class="bar-k">COMPANY PRIORITY</div>
               <div class="bar-v">${pri == null ? "—" : esc(fmtNum(pri, 3))} (${priPct}%)</div>
             </div>
             <div class="bar"><div class="bar-fill" style="width:${priPct}%;"></div></div>
@@ -870,7 +870,7 @@
         <details class="section" open>
           <summary>
             <span>Arguments (model output)</span>
-            <span class="small">${esc(label)} · confidence ${args?.confidence ?? "—"} · stage ${args?.deal_stage ?? "—"}</span>
+            <span class="small"><b>Stage:</b> ${args?.deal_stage ?? "—"}</span>
           </summary>
           <div class="section-body">
             ${argsSummary ? `<div class="small"><b>Summary:</b> ${esc(argsSummary)}</div>` : `<div class="small"><b>Summary:</b> —</div>`}
