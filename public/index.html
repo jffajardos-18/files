@@ -3,117 +3,343 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Hot Companies — CSV Viewer</title>
-
+  <meta name="color-scheme" content="light" />
+  <title>Hot Companies — Profiles</title>
   <style>
+    :root{
+      /* Core palette (solid, no gradients) */
+      --navy:   #162780; /* Pantone 2748 C */
+      --royal:  #002AD8; /* Pantone 2728 C */
+      --cyan:   #92F6FF; /* Pantone 635 C */
+      --teal:   #00CCCC; /* Pantone 3262 C */
+      --dteal:  #015958; /* Pantone 323 C */
+
+      --white:  #FFFFFF;
+      --black:  #000000;
+      --g700:   #808080;
+      --g200:   #E6E6E6;
+
+      --bg:     var(--white);
+      --text:   #0b1020;
+      --muted:  #4b5565;
+      --border: #e5e7eb;
+      --card:   #ffffff;
+
+      --shadow: 0 8px 24px rgba(0,0,0,0.08);
+      --radius: 16px;
+    }
+
+    /* Force true light mode everywhere */
+    html { background: var(--bg); color-scheme: light; }
     body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      margin: 24px;
     }
-    h1 { margin-bottom: 6px; }
-    .muted { color: #555; }
-    .row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin: 12px 0 16px;
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 18px 64px; }
+    .topbar {
+      display: flex; gap: 14px; align-items: flex-start; justify-content: space-between;
+      padding: 16px 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
     }
-    input { padding: 8px 10px; min-width: 260px; }
-    button { padding: 8px 10px; cursor: pointer; }
-    table {
-      border-collapse: collapse;
-      width: 100%;
+
+    .title { display: flex; flex-direction: column; gap: 6px; }
+    h1 { margin: 0; font-size: 20px; letter-spacing: .2px; }
+    .sub { font-size: 12.5px; color: var(--muted); display:flex; gap:8px; flex-wrap: wrap; align-items: center; }
+    .pill {
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 4px 10px; border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      background: #fff;
+      color: var(--muted);
+    }
+    .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--g200); }
+
+    .controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+    .input {
+      display:flex; align-items:center; gap:8px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 10px;
+      background: #fff;
+      min-width: 320px;
+    }
+    .input input{
+      border:0; outline:0; width:100%;
       font-size: 13px;
+      background: transparent;
+      color: var(--text);
     }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 6px 8px;
-      vertical-align: top;
+    .btn{
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 12px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text);
     }
-    th {
-      position: sticky;
-      top: 0;
-      background: #f7f7f7;
+    .btn:hover { border-color: #cfd6df; }
+    .btn.primary {
+      border-color: rgba(0,42,216,.35);
+      color: var(--royal);
+    }
+
+    .statusRow { margin: 14px 4px 0; display:flex; gap:10px; flex-wrap: wrap; align-items: center; color: var(--muted); font-size: 12.5px; }
+    .err { color: #b00020; white-space: pre-wrap; margin: 10px 4px 0; font-size: 12.5px; }
+
+    .list { margin-top: 16px; display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 920px){ .list { grid-template-columns: 1fr 1fr; } }
+
+    .card{
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .cardHead{
+      display:flex; align-items:flex-start; justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .nameBlock{ display:flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .companyName{
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.2;
+      letter-spacing: .2px;
+      color: var(--navy);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 520px;
+    }
+    .links { display:flex; gap:10px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); }
+    .linkBadge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+    }
+    .linkBadge .icon{
+      width: 8px; height: 8px; border-radius: 999px; background: var(--royal);
+    }
+    .linkBadge.linkedin .icon{ background: var(--dteal); }
+
+    .scoreBlock{ display:flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+    }
+    .badge .bDot{ width: 8px; height: 8px; border-radius: 999px; background: var(--g200); }
+    .badge.hot .bDot{ background: var(--royal); }
+    .badge.warm .bDot{ background: var(--teal); }
+    .badge.cold .bDot{ background: var(--dteal); }
+    .badge.unknown .bDot{ background: var(--g700); }
+    .badge.noise .bDot{ background: var(--cyan); }
+
+    .badgeStrong{
+      border-color: rgba(22,39,128,.18);
+      color: var(--navy);
+    }
+
+    .cardBody{ padding: 14px 16px 16px; }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 12px;
+      margin-bottom: 12px;
+    }
+    .kv{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 10px;
+      background: #fff;
+    }
+    .k{ font-size: 11.5px; color: var(--muted); margin-bottom: 4px; }
+    .v{ font-size: 13px; color: var(--text); overflow-wrap:anywhere; }
+
+    .section{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background:#fff;
+      padding: 10px 10px;
+      margin-top: 10px;
+    }
+    .sectionTitle{
+      display:flex; align-items:center; justify-content: space-between; gap:10px;
+      font-size: 12.5px; color: var(--navy);
+      margin: 0;
+    }
+    details { border-radius: 14px; }
+    details > summary{
+      list-style: none;
       cursor: pointer;
       user-select: none;
+      display:flex; align-items:center; justify-content: space-between; gap:10px;
+      font-size: 12.5px; color: var(--navy);
+      padding: 10px 10px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
     }
-    tr:nth-child(even) td { background: #fafafa; }
-    .pill {
-      display:inline-block;
-      padding:2px 8px;
-      border:1px solid #ddd;
-      border-radius:999px;
-      font-size:12px;
+    details > summary::-webkit-details-marker { display:none; }
+    .summaryRight{ color: var(--muted); font-size: 12px; }
+
+    .bullets{ margin: 8px 0 0 0; padding-left: 18px; color: var(--text); font-size: 13px; }
+    .bullets li{ margin: 6px 0; }
+    .why{ color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+
+    .srcList{ margin-top: 8px; display:flex; flex-direction: column; gap: 8px; }
+    .srcItem{
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 10px;
+      background: #fff;
     }
-    .error {
-      color: #b00020;
-      white-space: pre-wrap;
+    .srcTop{ display:flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+    .srcTitle{ font-size: 13px; color: var(--navy); font-weight: 600; overflow-wrap:anywhere; }
+    .srcUrl{ font-size: 12px; color: var(--muted); overflow-wrap:anywhere; }
+    .srcWhy{ font-size: 12.5px; color: var(--text); margin-top: 4px; }
+
+    .pager{
+      margin-top: 18px;
+      display:flex; gap:10px; justify-content: center; align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
     }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
   </style>
 </head>
 
 <body>
-  <h1>Hot Companies — CSV Viewer</h1>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="title">
+        <h1>Hot Companies — Profiles</h1>
+        <div class="sub">
+          <span class="pill"><span class="dot" id="statusDot"></span><span id="statusText">Loading…</span></span>
+          <span class="pill">Source: <a id="srcLink" class="mono" target="_blank" rel="noopener"></a></span>
+          <span class="pill" id="metaPill">—</span>
+        </div>
+      </div>
 
-  <div class="muted">
-    Source:
-    <a id="srcLink" target="_blank" rel="noopener"></a>
-  </div>
+      <div class="controls">
+        <div class="input" title="Search across key fields + arguments summary/reasons">
+          <span class="mono" style="color:var(--muted);font-size:12px;">Q</span>
+          <input id="q" placeholder="Search companies, websites, ownership, label, reasons…" />
+        </div>
+        <button class="btn" id="clearBtn">Clear</button>
+        <button class="btn primary" id="topBtn" title="Jump to top">Top</button>
+      </div>
+    </div>
 
-  <div class="row">
-    <span class="pill" id="status">Loading…</span>
-    <label class="muted">Search:</label>
-    <input id="q" placeholder="type to filter rows" />
-    <button id="clearBtn">Clear</button>
-  </div>
+    <div class="statusRow" id="statusRow"></div>
+    <div class="err" id="err"></div>
 
-  <div class="muted" id="meta"></div>
-  <div class="error" id="err"></div>
+    <div class="list" id="list"></div>
 
-  <div style="margin-top:14px; overflow:auto; max-height:70vh;">
-    <table id="tbl"></table>
+    <div class="pager" id="pager" style="display:none;">
+      <button class="btn" id="prevBtn">Prev</button>
+      <span id="pageInfo">—</span>
+      <button class="btn" id="nextBtn">Next</button>
+    </div>
   </div>
 
 <script>
 (() => {
-  // ✅ STABLE, WORKING PATH
-  const CSV_URL = "/files/public/data/hot_companies.csv";
+  // Pages is served from gh-pages /(root). CSV is in repo at public/data/hot_companies.csv
+  const CSV_URL = "public/data/hot_companies.csv";
 
-  const srcLink = document.getElementById("srcLink");
+  // Columns to keep (others ignored)
+  const COLS = [
+    "company_name","norm_company_website","norm_company_linkedin","hq","ownership",
+    "l1_proxi","industry_proxi","fte","fte_growth","transaction_date","transaction_type",
+    "n_ai_survey","max_ai_survey_score","is_published_on_origin","n_competitors","pa_batch",
+    "n_project_index","company_priority_test","hot_score",
+    "arguments","mna_signal_snippets"
+  ];
+
+  const PAGE_SIZE = 40;
+
+  const el = (id) => document.getElementById(id);
+  const srcLink = el("srcLink");
   srcLink.href = CSV_URL;
   srcLink.textContent = CSV_URL;
 
-  const statusEl = document.getElementById("status");
-  const metaEl   = document.getElementById("meta");
-  const errEl    = document.getElementById("err");
-  const tbl      = document.getElementById("tbl");
-  const q        = document.getElementById("q");
-  const clearBtn = document.getElementById("clearBtn");
+  const statusDot = el("statusDot");
+  const statusText = el("statusText");
+  const metaPill = el("metaPill");
+  const statusRow = el("statusRow");
+  const errEl = el("err");
+  const listEl = el("list");
 
-  let headers = [];
-  let rows = [];
-  let viewRows = [];
-  let sort = { col: -1, dir: 1 };
+  const qEl = el("q");
+  const clearBtn = el("clearBtn");
+  const topBtn = el("topBtn");
 
-  function setStatus(t) { statusEl.textContent = t; }
+  const pager = el("pager");
+  const prevBtn = el("prevBtn");
+  const nextBtn = el("nextBtn");
+  const pageInfo = el("pageInfo");
 
+  let all = [];     // normalized objects
+  let view = [];    // filtered + sorted
+  let page = 1;
+
+  function setStatus(kind, text){
+    statusText.textContent = text;
+    const c = {
+      loading: "#E6E6E6",
+      ready:   "#00CCCC",
+      error:   "#b00020"
+    }[kind] || "#E6E6E6";
+    statusDot.style.background = c;
+  }
+
+  function escapeHtml(s) {
+    return String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // CSV parser: quoted fields, commas, newlines-in-quotes
   function parseCSV(text) {
     const out = [];
-    let row = [], field = "", inQuotes = false;
+    let i = 0, field = "", row = [];
+    let inQuotes = false;
 
-    for (let i = 0; i < text.length; i++) {
+    while (i < text.length) {
       const c = text[i];
 
       if (inQuotes) {
-        if (c === '"' && text[i+1] === '"') { field += '"'; i++; }
-        else if (c === '"') inQuotes = false;
-        else field += c;
+        if (c === '"') {
+          if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
+          inQuotes = false; i++; continue;
+        } else {
+          field += c; i++; continue;
+        }
       } else {
-        if (c === '"') inQuotes = true;
-        else if (c === ",") { row.push(field); field = ""; }
-        else if (c === "\n") { row.push(field); out.push(row); row = []; field = ""; }
-        else if (c !== "\r") field += c;
+        if (c === '"') { inQuotes = true; i++; continue; }
+        if (c === ",") { row.push(field); field = ""; i++; continue; }
+        if (c === "\r") { i++; continue; }
+        if (c === "\n") { row.push(field); out.push(row); field = ""; row = []; i++; continue; }
+        field += c; i++; continue;
       }
     }
     row.push(field);
@@ -121,76 +347,328 @@
     return out;
   }
 
-  function render() {
-    const LIMIT = 200;
-
-    const thead = "<thead><tr>" +
-      headers.map((h,i)=>`<th data-i="${i}">${h}${sort.col===i?(sort.dir>0?" ▲":" ▼"):""}</th>`).join("")
-      + "</tr></thead>";
-
-    const tbody = "<tbody>" +
-      viewRows.slice(0, LIMIT).map(r =>
-        "<tr>" + r.map(c => `<td>${c ?? ""}</td>`).join("") + "</tr>"
-      ).join("") +
-      "</tbody>";
-
-    tbl.innerHTML = thead + tbody;
-
-    metaEl.textContent =
-      `Rows: ${rows.length.toLocaleString()} | Showing ${Math.min(viewRows.length, LIMIT)} of ${viewRows.length.toLocaleString()}`;
-
-    tbl.querySelectorAll("th").forEach(th => {
-      th.onclick = () => {
-        const i = +th.dataset.i;
-        sort.dir = sort.col === i ? -sort.dir : 1;
-        sort.col = i;
-        applySort();
-        render();
-      };
-    });
+  function asNum(x){
+    const s = String(x ?? "").trim();
+    if (!s) return null;
+    const n = Number(s);
+    return Number.isFinite(n) ? n : null;
   }
 
-  function applySort() {
-    if (sort.col < 0) return;
-    viewRows.sort((a,b)=> {
-      if (a[sort.col] < b[sort.col]) return -sort.dir;
-      if (a[sort.col] > b[sort.col]) return  sort.dir;
-      return 0;
-    });
+  function safeJsonParse(s){
+    const t = String(s ?? "").trim();
+    if (!t) return null;
+    try { return JSON.parse(t); } catch { return null; }
   }
 
-  async function main() {
-    try {
-      setStatus("Downloading CSV…");
+  function normBool(x){
+    const s = String(x ?? "").trim().toLowerCase();
+    if (s === "true" || s === "t" || s === "1") return true;
+    if (s === "false" || s === "f" || s === "0") return false;
+    return null;
+  }
+
+  function labelClass(label){
+    const L = String(label ?? "").toUpperCase();
+    if (L === "HOT") return "hot";
+    if (L === "WARM") return "warm";
+    if (L === "COLD") return "cold";
+    if (L === "NOISE") return "noise";
+    return "unknown";
+  }
+
+  function fmt(x){
+    if (x === null || x === undefined || x === "") return "—";
+    return String(x);
+  }
+
+  function linkify(url){
+    const u = String(url ?? "").trim();
+    if (!u) return null;
+    return u;
+  }
+
+  function companySearchBlob(c){
+    const parts = [];
+    for (const k of COLS){
+      if (k === "mna_signal_snippets") continue; // too large/noisy
+      parts.push(String(c[k] ?? ""));
+    }
+    // arguments fields
+    const a = c._arguments;
+    if (a){
+      parts.push(String(a.label ?? ""));
+      parts.push(String(a.summary ?? ""));
+      if (Array.isArray(a.reasons)) for (const r of a.reasons) parts.push(String(r?.text ?? ""));
+      if (Array.isArray(a.sources)) for (const s of a.sources) parts.push(String(s?.title ?? ""), String(s?.why ?? ""), String(s?.url ?? ""));
+    }
+    return parts.join(" ").toLowerCase();
+  }
+
+  function sortCompanies(arr){
+    // Order: hot_score desc, then company_priority_test desc
+    arr.sort((a, b) => {
+      const hsA = a._hot_score ?? -Infinity;
+      const hsB = b._hot_score ?? -Infinity;
+      if (hsA !== hsB) return hsB - hsA;
+
+      const cpA = a._company_priority_test ?? -Infinity;
+      const cpB = b._company_priority_test ?? -Infinity;
+      return cpB - cpA;
+    });
+    return arr;
+  }
+
+  function renderPage(){
+    errEl.textContent = "";
+
+    const total = view.length;
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    page = Math.min(page, totalPages);
+
+    const start = (page - 1) * PAGE_SIZE;
+    const end = Math.min(total, start + PAGE_SIZE);
+    const slice = view.slice(start, end);
+
+    metaPill.textContent = `Companies: ${total.toLocaleString()} | Page ${page}/${totalPages}`;
+
+    pager.style.display = total > PAGE_SIZE ? "flex" : "none";
+    pageInfo.textContent = `Showing ${start + 1}-${end} of ${total.toLocaleString()}`;
+    prevBtn.disabled = page <= 1;
+    nextBtn.disabled = page >= totalPages;
+
+    listEl.innerHTML = slice.map(renderCard).join("");
+  }
+
+  function renderCard(c){
+    const a = c._arguments || {};
+    const label = String(a.label ?? "UNKNOWN").toUpperCase();
+    const badgeCls = labelClass(label);
+
+    const name = fmt(c.company_name);
+    const website = linkify(c.norm_company_website);
+    const linkedin = linkify(c.norm_company_linkedin);
+
+    const hotScore = c._hot_score;
+    const prio = c._company_priority_test;
+
+    const reasons = Array.isArray(a.reasons) ? a.reasons : [];
+    const sources = Array.isArray(a.sources) ? a.sources : [];
+    const summary = String(a.summary ?? "").trim();
+
+    const whyCount = reasons.length;
+    const srcCount = sources.length;
+
+    // Basic key/values
+    const kv = (k,v) => `
+      <div class="kv">
+        <div class="k">${escapeHtml(k)}</div>
+        <div class="v">${escapeHtml(fmt(v))}</div>
+      </div>
+    `;
+
+    // Reasons list
+    const reasonsHtml = reasons.length ? `
+      <ul class="bullets">
+        ${reasons.map(r => {
+          const txt = String(r?.text ?? "").trim();
+          const u = String(r?.source_url ?? "").trim();
+          const link = u ? ` <span class="why">(<a target="_blank" rel="noopener" href="${escapeHtml(u)}">source</a>)</span>` : "";
+          return `<li>${escapeHtml(txt || "—")}${link}</li>`;
+        }).join("")}
+      </ul>
+    ` : `<div class="why">—</div>`;
+
+    // Sources cards
+    const sourcesHtml = sources.length ? `
+      <div class="srcList">
+        ${sources.map(s => {
+          const u = String(s?.url ?? "").trim();
+          const t = String(s?.title ?? "").trim();
+          const w = String(s?.why ?? "").trim();
+          const urlLine = u ? `<div class="srcUrl"><a target="_blank" rel="noopener" href="${escapeHtml(u)}">${escapeHtml(u)}</a></div>` : `<div class="srcUrl">—</div>`;
+          return `
+            <div class="srcItem">
+              <div class="srcTop">
+                <div class="srcTitle">${escapeHtml(t || "Source")}</div>
+              </div>
+              ${urlLine}
+              <div class="srcWhy">${escapeHtml(w || "")}</div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    ` : `<div class="why">—</div>`;
+
+    // MNA snippet flags / aggregate (compact)
+    const mna = c._mna || null;
+    const mnaFlags = mna?.flags || null;
+    const mnaAgg = mna?.aggregate || null;
+    const mnaSourcesCount = Array.isArray(mna?.sources) ? mna.sources.length : 0;
+
+    const mnaCompact = mna ? `
+      <div class="grid">
+        ${kv("mna.flags.any_ok_page", mnaFlags?.any_ok_page)}
+        ${kv("mna.flags.third_party_needed", mnaFlags?.third_party_needed)}
+        ${kv("mna.flags.login_wall_any", mnaFlags?.login_wall_any)}
+        ${kv("mna.flags.js_heavy_any", mnaFlags?.js_heavy_any)}
+        ${kv("mna.aggregate.score", mnaAgg?.score)}
+        ${kv("mna.sources.count", mnaSourcesCount)}
+      </div>
+    ` : `<div class="why">—</div>`;
+
+    return `
+      <div class="card">
+        <div class="cardHead">
+          <div class="nameBlock">
+            <h2 class="companyName" title="${escapeHtml(name)}">${escapeHtml(name)}</h2>
+            <div class="links">
+              ${website ? `<a class="linkBadge" target="_blank" rel="noopener" href="${escapeHtml(website)}"><span class="icon"></span><span>Website</span></a>` : `<span class="linkBadge"><span class="icon"></span><span>Website —</span></span>`}
+              ${linkedin ? `<a class="linkBadge linkedin" target="_blank" rel="noopener" href="${escapeHtml(linkedin)}"><span class="icon"></span><span>LinkedIn</span></a>` : `<span class="linkBadge linkedin"><span class="icon"></span><span>LinkedIn —</span></span>`}
+            </div>
+          </div>
+
+          <div class="scoreBlock">
+            <span class="badge ${badgeCls}" title="arguments.label"><span class="bDot"></span>${escapeHtml(label)}</span>
+            <span class="badge badgeStrong" title="hot_score">hot_score: <span class="mono">${escapeHtml(hotScore == null ? "—" : hotScore.toFixed(3))}</span></span>
+            <span class="badge" title="company_priority_test">priority: <span class="mono">${escapeHtml(prio == null ? "—" : prio.toFixed(3))}</span></span>
+          </div>
+        </div>
+
+        <div class="cardBody">
+          <div class="grid">
+            ${kv("hq", c.hq)}
+            ${kv("ownership", c.ownership)}
+            ${kv("l1_proxi", c.l1_proxi)}
+            ${kv("industry_proxi", c.industry_proxi)}
+            ${kv("fte", c.fte)}
+            ${kv("fte_growth", c.fte_growth)}
+            ${kv("transaction_date", c.transaction_date)}
+            ${kv("transaction_type", c.transaction_type)}
+            ${kv("n_ai_survey", c.n_ai_survey)}
+            ${kv("max_ai_survey_score", c.max_ai_survey_score)}
+            ${kv("is_published_on_origin", c.is_published_on_origin)}
+            ${kv("n_competitors", c.n_competitors)}
+            ${kv("pa_batch", c.pa_batch)}
+            ${kv("n_project_index", c.n_project_index)}
+          </div>
+
+          <div class="section">
+            <div class="sectionTitle">
+              <span><strong>Summary</strong></span>
+              <span class="summaryRight">deal_stage: <span class="mono">${escapeHtml(fmt(a.deal_stage))}</span> · confidence: <span class="mono">${escapeHtml(fmt(a.confidence))}</span></span>
+            </div>
+            <div class="why" style="margin-top:6px;color:var(--text);font-size:13px;">
+              ${escapeHtml(summary || "—")}
+            </div>
+          </div>
+
+          <details style="margin-top:10px;">
+            <summary>
+              <span><strong>Reasons</strong></span>
+              <span class="summaryRight">${whyCount} item(s)</span>
+            </summary>
+            <div class="section" style="margin-top:8px;">
+              ${reasonsHtml}
+            </div>
+          </details>
+
+          <details style="margin-top:10px;">
+            <summary>
+              <span><strong>Sources</strong></span>
+              <span class="summaryRight">${srcCount} item(s)</span>
+            </summary>
+            <div class="section" style="margin-top:8px;">
+              ${sourcesHtml}
+            </div>
+          </details>
+
+          <details style="margin-top:10px;">
+            <summary>
+              <span><strong>MNA Signal Snippets (compact)</strong></span>
+              <span class="summaryRight">${mna ? "available" : "—"}</span>
+            </summary>
+            <div class="section" style="margin-top:8px;">
+              ${mnaCompact}
+            </div>
+          </details>
+        </div>
+      </div>
+    `;
+  }
+
+  function applyFilterAndSort(){
+    const needle = qEl.value.trim().toLowerCase();
+    if (!needle){
+      view = all.slice();
+    } else {
+      view = all.filter(c => (c._blob || "").includes(needle));
+    }
+    sortCompanies(view);
+    page = 1;
+    renderPage();
+  }
+
+  async function main(){
+    try{
+      setStatus("loading","Downloading CSV…");
+      errEl.textContent = "";
+      statusRow.textContent = "";
+
       const res = await fetch(CSV_URL, { cache: "no-store" });
-      if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+      if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
 
       const text = await res.text();
+      setStatus("loading","Parsing CSV…");
+
       const parsed = parseCSV(text);
+      if (!parsed.length) throw new Error("CSV appears empty.");
 
-      headers = parsed[0];
-      rows = parsed.slice(1);
-      viewRows = rows.slice();
+      const headerRaw = parsed[0].map(h => String(h ?? "").trim());
+      const idx = {};
+      headerRaw.forEach((h, i) => idx[h] = i);
 
-      setStatus("Ready");
-      render();
+      // Build normalized objects with only COLS
+      const rows = parsed.slice(1);
+      all = rows.map(r => {
+        const obj = {};
+        for (const c of COLS){
+          const i = idx[c];
+          obj[c] = (i === undefined) ? "" : (r[i] ?? "");
+        }
 
-      q.oninput = () => {
-        const s = q.value.toLowerCase();
-        viewRows = rows.filter(r => r.some(c => String(c).toLowerCase().includes(s)));
-        applySort();
-        render();
-      };
+        obj._hot_score = asNum(obj.hot_score);
+        obj._company_priority_test = asNum(obj.company_priority_test);
 
-      clearBtn.onclick = () => {
-        q.value = "";
-        viewRows = rows.slice();
-        render();
-      };
+        obj._arguments = safeJsonParse(obj.arguments);
+        obj._mna = safeJsonParse(obj.mna_signal_snippets);
 
-    } catch (e) {
-      setStatus("Error");
-      errEl.textContent = e.message;
+        // Normalize a couple of common booleans (for display)
+        const pub = normBool(obj.is_published_on_origin);
+        if (pub !== null) obj.is_published_on_origin = pub;
+
+        // Precompute search blob
+        obj._blob = companySearchBlob(obj);
+
+        return obj;
+      });
+
+      sortCompanies(all);
+      view = all.slice();
+
+      setStatus("ready","Ready");
+      statusRow.textContent = `Sorted by hot_score (desc), tie by company_priority_test (desc).`;
+      renderPage();
+
+      qEl.addEventListener("input", () => applyFilterAndSort());
+      clearBtn.addEventListener("click", () => { qEl.value = ""; applyFilterAndSort(); });
+      topBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+      prevBtn.addEventListener("click", () => { page = Math.max(1, page - 1); renderPage(); window.scrollTo({ top: 0, behavior: "smooth" }); });
+      nextBtn.addEventListener("click", () => { page = page + 1; renderPage(); window.scrollTo({ top: 0, behavior: "smooth" }); });
+
+    } catch (e){
+      setStatus("error","Error");
+      errEl.textContent = String(e?.message || e);
     }
   }
 
