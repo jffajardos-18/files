@@ -523,8 +523,25 @@
 
 <script>
 (() => {
-  // GitHub Pages is serving from gh-pages /(root), so the CSV is reachable under /public/...
-  const CSV_URL = "public/data/hot_companies.csv";
+  // ---- IMPORTANT FIX ----
+  // Your Pages root sometimes flips between:
+  //   /<repo>/  (serving gh-pages /(root))  -> CSV at /<repo>/public/data/hot_companies.csv
+  //   /<repo>/  (serving gh-pages /public) -> CSV at /<repo>/data/hot_companies.csv
+  // We auto-detect which one exists so it never breaks again.
+
+  const PATH_ROOT = (() => {
+    const parts = window.location.pathname.split("/").filter(Boolean);
+    // On *.github.io project pages, first segment is the repo name.
+    if (window.location.hostname.endsWith("github.io") && parts.length) return "/" + parts[0];
+    return "";
+  })();
+
+  const CSV_CANDIDATES = [
+    `${PATH_ROOT}/public/data/hot_companies.csv`,
+    `${PATH_ROOT}/data/hot_companies.csv`
+  ];
+
+  let CSV_URL = CSV_CANDIDATES[0]; // will be replaced by the first working candidate
 
   const IMPORTANT_COLUMNS = [
     "company_name",
@@ -551,9 +568,6 @@
   ];
 
   const srcLink = document.getElementById("srcLink");
-  srcLink.href = CSV_URL;
-  srcLink.textContent = CSV_URL;
-
   const statusEl = document.getElementById("status");
   const metaEl = document.getElementById("meta");
   const errEl = document.getElementById("err");
@@ -664,13 +678,11 @@
   function buildSearchBlob(r){
     const parts = [];
 
-    // Scalars
     for (const k of IMPORTANT_COLUMNS){
       if (k === "arguments" || k === "mna_signal_snippets") continue;
       parts.push(String(r[k] ?? ""));
     }
 
-    // arguments JSON (most important)
     if (r._arguments){
       parts.push(String(r._arguments.label ?? ""));
       parts.push(String(r._arguments.summary ?? ""));
@@ -691,7 +703,6 @@
       }
     }
 
-    // mna_signal_snippets JSON (secondary)
     if (r._mna){
       parts.push(String(r._mna.website ?? ""));
       parts.push(String(r._mna.base_root ?? ""));
@@ -713,7 +724,7 @@
     const pri = r._company_priority;
 
     const label = r._label || "UNKNOWN";
-    const labelClass = `label-${esc(label)}`;
+    const labelClass = `label-${label}`;
 
     const website = normalizeUrl(r.norm_company_website);
     const linkedin = normalizeUrl(r.norm_company_linkedin);
@@ -729,7 +740,7 @@
     const sources = Array.isArray(args?.sources) ? args.sources : [];
 
     const mna = r._mna;
-    const mnaFlags = mna?.flags || mna?.flags?.flags || null; // tolerate structure variants
+    const mnaFlags = (mna && typeof mna.flags === "object") ? mna.flags : null;
     const mnaSources = Array.isArray(mna?.sources) ? mna.sources : [];
 
     const reasonHTML = reasons.length
@@ -763,7 +774,7 @@
       : `<div class="small">No sources provided.</div>`;
 
     let flagsHTML = "";
-    if (mnaFlags && typeof mnaFlags === "object"){
+    if (mnaFlags){
       const chips = [];
       for (const [k, v] of Object.entries(mnaFlags)){
         if (typeof v === "boolean") chips.push(`<span class="mini">${esc(k)}: ${v ? "true" : "false"}</span>`);
@@ -802,7 +813,7 @@
             <div class="title-row">
               <h2 class="company">${esc(company)}</h2>
               <div class="badges">
-                <span class="badge ${labelClass}">${esc(label)}</span>
+                <span class="badge ${esc(labelClass)}">${esc(label)}</span>
                 <span class="badge metric">hot_score: ${hot == null ? "—" : esc(fmtNum(hot, 3))}</span>
                 <span class="badge metric">priority: ${pri == null ? "—" : esc(fmtNum(pri, 3))}</span>
               </div>
@@ -818,7 +829,7 @@
           <div class="links">
             ${website ? `<a class="chip" href="${esc(website)}" target="_blank" rel="noopener">Website</a>` : ""}
             ${linkedin ? `<a class="chip" href="${esc(linkedin)}" target="_blank" rel="noopener">LinkedIn</a>` : ""}
-            <a class="chip" href="${esc(CSV_URL)}" target="_blank" rel="noopener">CSV row source</a>
+            <a class="chip" href="${esc(CSV_URL)}" target="_blank" rel="noopener">CSV</a>
           </div>
         </div>
 
@@ -906,8 +917,7 @@
     const showN = Math.min(renderLimit, filtered.length);
     const slice = filtered.slice(0, showN);
 
-    const html = slice.map(cardHTML).join("");
-    cardsEl.innerHTML = html;
+    cardsEl.innerHTML = slice.map(cardHTML).join("");
 
     metaEl.textContent =
       `Companies: ${filtered.length.toLocaleString()} / ${all.length.toLocaleString()} | Showing: ${showN.toLocaleString()} | Sorted: hot_score ↓, company_priority_test ↓`;
@@ -945,14 +955,32 @@
 
   qEl.addEventListener("input", () => applyFilter());
 
+  async function fetchFirstOk(urls){
+    let lastErr = null;
+    for (const u of urls){
+      try{
+        const r = await fetch(u, { cache: "no-store" });
+        if (r.ok) return { url: u, res: r };
+        lastErr = new Error(`Fetch failed: ${r.status} ${r.statusText} (${u})`);
+      } catch (e){
+        lastErr = e;
+      }
+    }
+    throw lastErr || new Error("Failed to fetch CSV.");
+  }
+
   async function main(){
     try{
       clearError();
+      setStatus("Locating CSV…");
+
+      const { url, res } = await fetchFirstOk(CSV_CANDIDATES);
+      CSV_URL = url;
+
+      srcLink.href = CSV_URL;
+      srcLink.textContent = CSV_URL;
+
       setStatus("Downloading CSV…");
-
-      const res = await fetch(CSV_URL, { cache: "no-store" });
-      if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
-
       const text = await res.text();
       if (!text.trim()) throw new Error("CSV appears empty.");
 
@@ -963,7 +991,6 @@
       const headers = parsed[0].map(h => String(h ?? "").trim());
       const idxMap = buildIndex(headers);
 
-      // Build records using only the requested columns
       const records = [];
       for (const row of parsed.slice(1)){
         const r = {};
@@ -979,13 +1006,11 @@
         r._hot_score = asNum(r.hot_score);
         r._company_priority = asNum(r.company_priority_test);
 
-        // Search blob (lowercased)
         r._search = buildSearchBlob(r);
 
         records.push(r);
       }
 
-      // Sort: hot_score desc; tie-break: company_priority_test desc
       records.sort((a, b) => {
         const ah = (a._hot_score == null) ? -Infinity : a._hot_score;
         const bh = (b._hot_score == null) ? -Infinity : b._hot_score;
