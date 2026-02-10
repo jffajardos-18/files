@@ -3,25 +3,59 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CSV Viewer</title>
+  <title>Hot Companies — CSV Viewer</title>
+
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
-    h1 { margin: 0 0 8px 0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 24px;
+    }
+    h1 { margin-bottom: 6px; }
     .muted { color: #555; }
-    .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin: 12px 0 16px; }
+    .row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 12px 0 16px;
+    }
     input { padding: 8px 10px; min-width: 260px; }
     button { padding: 8px 10px; cursor: pointer; }
-    table { border-collapse: collapse; width: 100%; font-size: 13px; }
-    th, td { border: 1px solid #ddd; padding: 6px 8px; vertical-align: top; }
-    th { position: sticky; top: 0; background: #f7f7f7; cursor: pointer; user-select: none; }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 13px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 6px 8px;
+      vertical-align: top;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: #f7f7f7;
+      cursor: pointer;
+      user-select: none;
+    }
     tr:nth-child(even) td { background: #fafafa; }
-    .pill { display:inline-block; padding:2px 8px; border:1px solid #ddd; border-radius:999px; font-size:12px; }
-    .error { color: #b00020; white-space: pre-wrap; }
-    a { color: inherit; }
+    .pill {
+      display:inline-block;
+      padding:2px 8px;
+      border:1px solid #ddd;
+      border-radius:999px;
+      font-size:12px;
+    }
+    .error {
+      color: #b00020;
+      white-space: pre-wrap;
+    }
   </style>
 </head>
+
 <body>
   <h1>Hot Companies — CSV Viewer</h1>
+
   <div class="muted">
     Source:
     <a id="srcLink" target="_blank" rel="noopener"></a>
@@ -30,7 +64,7 @@
   <div class="row">
     <span class="pill" id="status">Loading…</span>
     <label class="muted">Search:</label>
-    <input id="q" placeholder="type to filter rows (client-side)" />
+    <input id="q" placeholder="type to filter rows" />
     <button id="clearBtn">Clear</button>
   </div>
 
@@ -43,130 +77,85 @@
 
 <script>
 (() => {
-  // --- CSV source (GitHub Release asset) ---
+  // ✅ STABLE, WORKING PATH
   const CSV_URL = "/files/public/data/hot_companies.csv";
+
   const srcLink = document.getElementById("srcLink");
   srcLink.href = CSV_URL;
   srcLink.textContent = CSV_URL;
 
   const statusEl = document.getElementById("status");
-  const metaEl = document.getElementById("meta");
-  const errEl = document.getElementById("err");
-  const tbl = document.getElementById("tbl");
-  const q = document.getElementById("q");
+  const metaEl   = document.getElementById("meta");
+  const errEl    = document.getElementById("err");
+  const tbl      = document.getElementById("tbl");
+  const q        = document.getElementById("q");
   const clearBtn = document.getElementById("clearBtn");
 
   let headers = [];
-  let rows = [];       // all parsed rows (array of arrays)
-  let viewRows = [];   // filtered rows
-  let sort = { col: -1, dir: 1 }; // dir: 1 asc, -1 desc
+  let rows = [];
+  let viewRows = [];
+  let sort = { col: -1, dir: 1 };
 
-  function setStatus(text) { statusEl.textContent = text; }
-  function escapeHtml(s) {
-    return String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  }
+  function setStatus(t) { statusEl.textContent = t; }
 
-  // Robust-ish CSV parser: handles quoted fields, commas, newlines in quotes.
   function parseCSV(text) {
     const out = [];
-    let i = 0, field = "", row = [];
-    let inQuotes = false;
+    let row = [], field = "", inQuotes = false;
 
-    while (i < text.length) {
+    for (let i = 0; i < text.length; i++) {
       const c = text[i];
 
       if (inQuotes) {
-        if (c === '"') {
-          if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
-          inQuotes = false; i++; continue;
-        } else {
-          field += c; i++; continue;
-        }
+        if (c === '"' && text[i+1] === '"') { field += '"'; i++; }
+        else if (c === '"') inQuotes = false;
+        else field += c;
       } else {
-        if (c === '"') { inQuotes = true; i++; continue; }
-        if (c === ",") { row.push(field); field = ""; i++; continue; }
-        if (c === "\r") { i++; continue; }
-        if (c === "\n") { row.push(field); out.push(row); field = ""; row = []; i++; continue; }
-        field += c; i++; continue;
+        if (c === '"') inQuotes = true;
+        else if (c === ",") { row.push(field); field = ""; }
+        else if (c === "\n") { row.push(field); out.push(row); row = []; field = ""; }
+        else if (c !== "\r") field += c;
       }
     }
-    // last field
     row.push(field);
     out.push(row);
     return out;
   }
 
-  function normalizeRowLen(r, len) {
-    if (r.length === len) return r;
-    const rr = r.slice(0, len);
-    while (rr.length < len) rr.push("");
-    return rr;
-  }
+  function render() {
+    const LIMIT = 200;
 
-  function toComparable(v) {
-    const s = String(v ?? "").trim();
-    if (s === "") return { t: "s", v: "" };
-    const n = Number(s);
-    if (!Number.isNaN(n) && /^-?\d+(\.\d+)?$/.test(s)) return { t: "n", v: n };
-    // date-ish
-    const d = Date.parse(s);
-    if (!Number.isNaN(d) && /(\d{4}-\d{2}-\d{2})|(\d{2}\/\d{2}\/\d{4})/.test(s)) return { t: "d", v: d };
-    return { t: "s", v: s.toLowerCase() };
-  }
+    const thead = "<thead><tr>" +
+      headers.map((h,i)=>`<th data-i="${i}">${h}${sort.col===i?(sort.dir>0?" ▲":" ▼"):""}</th>`).join("")
+      + "</tr></thead>";
 
-  function applyFilter() {
-    const needle = q.value.trim().toLowerCase();
-    if (!needle) {
-      viewRows = rows;
-    } else {
-      viewRows = rows.filter(r => r.some(cell => String(cell ?? "").toLowerCase().includes(needle)));
-    }
-    applySort();
-    render();
+    const tbody = "<tbody>" +
+      viewRows.slice(0, LIMIT).map(r =>
+        "<tr>" + r.map(c => `<td>${c ?? ""}</td>`).join("") + "</tr>"
+      ).join("") +
+      "</tbody>";
+
+    tbl.innerHTML = thead + tbody;
+
+    metaEl.textContent =
+      `Rows: ${rows.length.toLocaleString()} | Showing ${Math.min(viewRows.length, LIMIT)} of ${viewRows.length.toLocaleString()}`;
+
+    tbl.querySelectorAll("th").forEach(th => {
+      th.onclick = () => {
+        const i = +th.dataset.i;
+        sort.dir = sort.col === i ? -sort.dir : 1;
+        sort.col = i;
+        applySort();
+        render();
+      };
+    });
   }
 
   function applySort() {
     if (sort.col < 0) return;
-    const c = sort.col, dir = sort.dir;
-    viewRows = viewRows.slice().sort((a, b) => {
-      const A = toComparable(a[c]);
-      const B = toComparable(b[c]);
-      if (A.t !== B.t) return (A.t < B.t ? -1 : 1) * dir;
-      if (A.v < B.v) return -1 * dir;
-      if (A.v > B.v) return  1 * dir;
+    viewRows.sort((a,b)=> {
+      if (a[sort.col] < b[sort.col]) return -sort.dir;
+      if (a[sort.col] > b[sort.col]) return  sort.dir;
       return 0;
-    });
-  }
-
-  function render() {
-    // render only first 200 rows for performance
-    const LIMIT = 200;
-
-    const headHtml = "<thead><tr>" + headers.map((h, idx) => {
-      const arrow = (sort.col === idx ? (sort.dir === 1 ? " ▲" : " ▼") : "");
-      return `<th data-col="${idx}">${escapeHtml(h)}${arrow}</th>`;
-    }).join("") + "</tr></thead>";
-
-    const bodyRows = viewRows.slice(0, LIMIT);
-    const bodyHtml = "<tbody>" + bodyRows.map(r => {
-      return "<tr>" + r.map(cell => `<td>${escapeHtml(cell)}</td>`).join("") + "</tr>";
-    }).join("") + "</tbody>";
-
-    tbl.innerHTML = headHtml + bodyHtml;
-
-    metaEl.textContent =
-      `Rows: ${rows.length.toLocaleString()} | Showing: ${Math.min(viewRows.length, LIMIT).toLocaleString()} of ${viewRows.length.toLocaleString()} (filtered)` +
-      (viewRows.length > LIMIT ? ` | Tip: use Search to narrow down.` : "");
-
-    // bind header clicks
-    tbl.querySelectorAll("th").forEach(th => {
-      th.addEventListener("click", () => {
-        const col = Number(th.getAttribute("data-col"));
-        if (sort.col === col) sort.dir *= -1;
-        else { sort.col = col; sort.dir = 1; }
-        applySort();
-        render();
-      });
     });
   }
 
@@ -174,30 +163,34 @@
     try {
       setStatus("Downloading CSV…");
       const res = await fetch(CSV_URL, { cache: "no-store" });
-      if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
+      if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
 
       const text = await res.text();
-      if (text.trim().startsWith("<")) {
-        throw new Error("Proxy returned HTML (not CSV). The CSV may be blocked/rate-limited.");
-      }
-      setStatus("Parsing…");
       const parsed = parseCSV(text);
 
-      if (!parsed.length) throw new Error("CSV appears empty.");
+      headers = parsed[0];
+      rows = parsed.slice(1);
+      viewRows = rows.slice();
 
-      headers = parsed[0].map(h => String(h ?? "").trim() || "(blank)");
-      rows = parsed.slice(1).map(r => normalizeRowLen(r, headers.length));
-
-      viewRows = rows;
       setStatus("Ready");
       render();
 
-      q.addEventListener("input", () => applyFilter());
-      clearBtn.addEventListener("click", () => { q.value = ""; applyFilter(); });
+      q.oninput = () => {
+        const s = q.value.toLowerCase();
+        viewRows = rows.filter(r => r.some(c => String(c).toLowerCase().includes(s)));
+        applySort();
+        render();
+      };
+
+      clearBtn.onclick = () => {
+        q.value = "";
+        viewRows = rows.slice();
+        render();
+      };
 
     } catch (e) {
       setStatus("Error");
-      errEl.textContent = String(e?.message || e);
+      errEl.textContent = e.message;
     }
   }
 
