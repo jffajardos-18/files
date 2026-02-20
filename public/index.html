@@ -594,6 +594,175 @@
       line-height: 1.55;
       font-family: var(--sans);
     }
+
+    /* ── Priority breakdown ─────────────────────────────────── */
+    .bd-summary{
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    @media (max-width: 720px){ .bd-summary{ grid-template-columns: repeat(2, 1fr); } }
+
+    .bd-score{
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 11px 13px;
+      background: #fff;
+    }
+    .bd-score.highlight{
+      border-color: rgba(22,39,128,.35);
+      background: #f5f7ff;
+    }
+    .bd-score-label{
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .35px;
+      color: var(--muted);
+      font-weight: 500;
+      font-family: var(--sans);
+      margin-bottom: 5px;
+    }
+    .bd-score-value{
+      font-size: 20px;
+      font-family: var(--display);
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -.25px;
+    }
+    .bd-score.highlight .bd-score-value{ color: var(--navy); }
+
+    .bd-comp-grid{
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-top: 2px;
+    }
+    .bd-comp-row{
+      display: grid;
+      grid-template-columns: 148px 1fr 52px;
+      gap: 10px;
+      align-items: center;
+    }
+    @media (max-width: 600px){ .bd-comp-row{ grid-template-columns: 110px 1fr 44px; } }
+
+    .bd-comp-label{
+      font-size: 11.5px;
+      font-family: var(--sans);
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .bd-comp-bar{
+      height: 5px;
+      border-radius: 999px;
+      background: #f2f2f2;
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .bd-comp-fill{
+      height: 100%;
+      border-radius: 999px;
+      background: var(--royal);
+    }
+    .bd-comp-fill.zero{ background: var(--line); }
+    .bd-comp-val{
+      font-size: 11px;
+      font-family: var(--sans);
+      font-weight: 600;
+      color: var(--ink);
+      text-align: right;
+    }
+
+    .bd-ind-grid{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 2px;
+    }
+    @media (max-width: 600px){ .bd-ind-grid{ grid-template-columns: repeat(2, 1fr); } }
+
+    .bd-ind-item{
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: #fff;
+    }
+    .bd-ind-label{
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      color: var(--muted);
+      font-weight: 500;
+      font-family: var(--sans);
+      margin-bottom: 4px;
+    }
+    .bd-ind-value{
+      font-size: 15px;
+      font-family: var(--display);
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .bd-ind-item.full .bd-ind-value{ color: var(--teal); }
+    .bd-ind-item.zero .bd-ind-value{ color: var(--gray); }
+
+    .bd-signals{
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .bd-signal{
+      display: inline-flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 7px 11px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-family: var(--sans);
+    }
+    .bd-signal-label{
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: .35px;
+      color: var(--gray);
+      font-weight: 500;
+    }
+    .bd-signal-value{
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      text-transform: capitalize;
+    }
+    .bd-signal.heat-very-hot{ border-color: var(--royal); background: rgba(0,42,216,.04); }
+    .bd-signal.heat-very-hot .bd-signal-value{ color: var(--royal); }
+    .bd-signal.heat-hot{ border-color: var(--teal); background: rgba(1,89,88,.04); }
+    .bd-signal.heat-hot .bd-signal-value{ color: var(--teal); }
+
+    .bd-mults{
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .bd-mult{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-family: var(--sans);
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+    .bd-mult.ok  { border-color: var(--teal); color: var(--teal);   background: rgba(1,89,88,.04); }
+    .bd-mult.warn{ border-color: #b87a00;     color: #b87a00;       background: #fffbf0; }
+    .bd-mult-key{ font-size: 9.5px; text-transform: uppercase; letter-spacing: .3px; opacity: .7; }
   </style>
 </head>
 
@@ -679,7 +848,8 @@
     "hot_score",
     "arguments",
     "mna_signal_snippets",
-    "origin_id"
+    "origin_id",
+    "company_priority_test_breakdown"
   ];
 
   const srcLink = document.getElementById("srcLink");
@@ -833,6 +1003,138 @@
     return parts.join(" ").toLowerCase();
   }
 
+  const COMP_LABELS = {
+    g:                  "Geography",
+    hq_geo:             "HQ + Geography",
+    k_index:            "Competitor index",
+    p_index:            "Project index",
+    industry2:          "Industry weight",
+    g_x_hq_geo:         "Geo × HQ",
+    g_x_industry1:      "Geo × Industry 1",
+    g_x_industry2:      "Geo × Industry 2",
+    industry2_x_hq_geo: "Industry × HQ",
+  };
+
+  function priorityBreakdownHTML(bd){
+    if (!bd) return `<div class="small">No breakdown available.</div>`;
+
+    const fmt3 = v => (v == null || !Number.isFinite(v)) ? "—" : v.toFixed(3);
+    const fmt2 = v => (v == null || !Number.isFinite(v)) ? "—" : v.toFixed(2);
+    const pct  = v => (v == null || !Number.isFinite(v)) ? "—" : (v * 100).toFixed(1) + "%";
+
+    // ── 1. Score summary ──────────────────────────────────────
+    const summaryItems = [
+      { label: "Final priority", value: fmt3(bd.priority_final), hi: true },
+      { label: "Base score",     value: fmt3(bd.b_score) },
+      { label: "Geography",      value: fmt3(bd.g_score) },
+      { label: "Alpha",          value: fmt3(bd.alpha) },
+    ];
+    const summaryHTML = `
+      <div class="bd-summary">
+        ${summaryItems.map(s => `
+          <div class="bd-score${s.hi ? " highlight" : ""}">
+            <div class="bd-score-label">${s.label}</div>
+            <div class="bd-score-value">${s.value}</div>
+          </div>`).join("")}
+      </div>`;
+
+    // ── 2. Component bars (sorted descending) ─────────────────
+    const comps = Object.entries(bd.b_components || {})
+      .filter(([, v]) => typeof v === "number")
+      .sort((a, b) => b[1] - a[1]);
+    const maxComp = Math.max(...comps.map(([, v]) => v), 0.0001);
+
+    const compHTML = comps.length ? `
+      <div class="bd-comp-grid">
+        ${comps.map(([k, v]) => {
+          const pctW = Math.round((v / maxComp) * 100);
+          const label = COMP_LABELS[k] || k.replace(/_/g, " ");
+          return `
+          <div class="bd-comp-row">
+            <div class="bd-comp-label">${esc(label)}</div>
+            <div class="bd-comp-bar">
+              <div class="bd-comp-fill${v === 0 ? " zero" : ""}" style="width:${pctW}%"></div>
+            </div>
+            <div class="bd-comp-val">${v.toFixed(3)}</div>
+          </div>`;
+        }).join("")}
+      </div>` : `<div class="small">—</div>`;
+
+    // ── 3. Individual scores ──────────────────────────────────
+    const indItems = [
+      { label: "HQ & Geo",   value: bd.hq_geo_score },
+      { label: "HQ only",    value: bd.hq_only_score },
+      { label: "Geo only",   value: bd.geo_only_score },
+      { label: "Industry 1", value: bd.industry1_score },
+      { label: "Industry 2", value: bd.industry2_score },
+      { label: "P-index",    value: bd.p_index },
+    ].filter(s => s.value != null);
+
+    const indHTML = indItems.length ? `
+      <div class="bd-ind-grid">
+        ${indItems.map(s => {
+          const cls = s.value === 1 ? " full" : s.value === 0 ? " zero" : "";
+          return `
+          <div class="bd-ind-item${cls}">
+            <div class="bd-ind-label">${esc(s.label)}</div>
+            <div class="bd-ind-value">${fmt3(s.value)}</div>
+          </div>`;
+        }).join("")}
+      </div>` : "";
+
+    // ── 4. Normalised signals ─────────────────────────────────
+    const norm = bd.normalized || {};
+    const signalDefs = [
+      { label: "Industry heat",  value: norm.heat_deep_norm   || norm.heat_l2_proxi_norm },
+      { label: "Industry heat L2",value: norm.heat_l2_proxi_norm },
+      { label: "Industry",       value: norm.industry_norm },
+      { label: "Geography",      value: norm.geo_norm },
+      { label: "HQ",             value: norm.hq_norm },
+      { label: "Ownership",      value: norm.ownership_norm },
+    ].filter(s => s.value);
+
+    const heatCls = v => {
+      const s = String(v ?? "").toLowerCase().replace(/\s+/g, "-");
+      return s.includes("very") ? "heat-very-hot" : s.includes("hot") ? "heat-hot" : "";
+    };
+
+    const signalsHTML = signalDefs.length ? `
+      <div class="bd-signals">
+        ${signalDefs.map(s => `
+          <div class="bd-signal ${heatCls(s.value)}">
+            <div class="bd-signal-label">${esc(s.label)}</div>
+            <div class="bd-signal-value">${esc(s.value)}</div>
+          </div>`).join("")}
+      </div>` : `<div class="small">—</div>`;
+
+    // ── 5. Multipliers / penalties ────────────────────────────
+    const multDefs = [
+      { label: "Penalty",   value: bd.penalty_mult },
+      { label: "Recency",   value: bd.penalty_recent_mult },
+      { label: "Ownership", value: bd.penalty_ownership_mult },
+      { label: "z-mult",    value: bd.z_mult },
+    ].filter(m => m.value != null);
+
+    const multHTML = multDefs.length ? `
+      <div class="bd-mults">
+        ${multDefs.map(m => {
+          const cls = m.value >= 1 ? "ok" : "warn";
+          return `<span class="bd-mult ${cls}"><span class="bd-mult-key">${esc(m.label)}</span>${fmt2(m.value)}</span>`;
+        }).join("")}
+      </div>` : "";
+
+    return `
+      ${summaryHTML}
+      <div class="subhead">Score components</div>
+      ${compHTML}
+      <div class="subhead">Individual scores</div>
+      ${indHTML}
+      <div class="subhead">Signals</div>
+      ${signalsHTML}
+      ${multHTML.length ? `<div class="subhead">Multipliers &amp; penalties</div>${multHTML}` : ""}
+    `;
+  }
+
   function cardHTML(r){
     const company = String(r.company_name ?? "").trim() || "(missing company_name)";
     const hot = r._hot_score;
@@ -858,6 +1160,8 @@
 
     const mna        = r._mna;
     const mnaSources = Array.isArray(mna?.sources) ? mna.sources : [];
+
+    const bd = r._breakdown;
 
     const reasonHTML = reasons.length
       ? `<ul class="list">${
@@ -1012,6 +1316,16 @@
 
         <details class="section">
           <summary>
+            <span>Priority Score Breakdown</span>
+            <span class="section-meta">${bd && bd.priority_final != null ? bd.priority_final.toFixed(3) : "—"}</span>
+          </summary>
+          <div class="section-body">
+            ${priorityBreakdownHTML(bd)}
+          </div>
+        </details>
+
+        <details class="section">
+          <summary>
             <span>M&A Signal Snippets</span>
             <span class="section-meta">${esc(mna?.website ?? "")}</span>
           </summary>
@@ -1118,6 +1432,7 @@
 
         r._arguments = safeJsonParse(r.arguments);
         r._mna = safeJsonParse(r.mna_signal_snippets);
+        r._breakdown = safeJsonParse(r.company_priority_test_breakdown);
 
         r._label = labelFromArguments(r._arguments);
 
