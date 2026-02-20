@@ -24,9 +24,10 @@
       --gray: #808080;
       --line: #E6E6E6;
 
-      --radius: 3px;
+      --radius: 14px;
     }
 
+    /* IMPORTANT: set html background (not just body) */
     html{
       background: var(--bg);
       color: var(--ink);
@@ -38,16 +39,12 @@
       min-height: 100%;
       background: var(--bg);
       color: var(--ink);
-      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
     a{ color: inherit; text-decoration: none; }
     a:hover{ text-decoration: underline; }
     *{ box-sizing: border-box; }
-
-    /* ── Topbar ── */
 
     .topbar{
       position: sticky;
@@ -55,123 +52,106 @@
       z-index: 50;
       background: var(--navy);
       color: #fff;
-      border-bottom: 1px solid rgba(255,255,255,.08);
+      border-bottom: 1px solid rgba(255,255,255,.15);
     }
 
     .topbar-inner{
-      max-width: 960px;
+      max-width: 1160px;
       margin: 0 auto;
-      padding: 14px 36px;
+      padding: 14px 18px;
       display: flex;
-      gap: 16px;
+      gap: 14px;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
     }
 
     .brand{
-      display: flex;
+      display:flex;
       align-items: baseline;
-      gap: 14px;
+      gap: 10px;
     }
 
     .brand h1{
       margin: 0;
       font-size: 16px;
-      letter-spacing: .01em;
-      font-weight: 400;
-      line-height: 1.25;
+      letter-spacing: .2px;
+      font-weight: 800;
     }
 
     .brand .sub{
-      font-size: 11px;
-      color: rgba(255,255,255,.5);
+      font-size: 12px;
+      color: rgba(255,255,255,.85);
       white-space: nowrap;
-      font-weight: 400;
-      letter-spacing: .04em;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
     .controls{
-      display: flex;
+      display:flex;
       gap: 10px;
       align-items: center;
       flex-wrap: wrap;
     }
 
     .input{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: #fff;
       color: #000;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 7px 12px;
+      border-radius: 10px;
+      padding: 9px 10px;
       min-width: 280px;
       outline: none;
-      font-size: 13px;
     }
     .input:focus{
       border-color: var(--royal);
-      box-shadow: 0 0 0 2px rgba(0,42,216,.1);
+      box-shadow: 0 0 0 2px rgba(0,42,216,.18);
     }
 
     .btn{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      border: 1px solid rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.25);
       background: transparent;
-      color: rgba(255,255,255,.7);
-      padding: 7px 12px;
-      border-radius: var(--radius);
+      color: #fff;
+      padding: 9px 10px;
+      border-radius: 10px;
       cursor: pointer;
-      font-weight: 400;
-      font-size: 11px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: .2px;
     }
-    .btn:hover{ border-color: rgba(255,255,255,.35); color: #fff; }
+    .btn:hover{ border-color: rgba(255,255,255,.45); }
 
     .pill{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      display: inline-flex;
-      align-items: center;
+      display:inline-flex;
+      align-items:center;
       gap: 8px;
-      padding: 4px 10px;
-      border-radius: var(--radius);
-      font-size: 10px;
-      font-weight: 400;
-      border: 1px solid rgba(255,255,255,.15);
-      background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.7);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.08);
+      color: #fff;
       white-space: nowrap;
-      letter-spacing: .06em;
-      text-transform: uppercase;
     }
 
-    /* ── Main container ── */
-
     .main{
-      max-width: 960px;
+      max-width: 1160px;
       margin: 0 auto;
-      padding: 52px 36px 72px;
+      padding: 18px;
     }
 
     .meta-row{
-      display: flex;
-      gap: 12px;
+      display:flex;
+      gap: 10px;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      margin: 0 0 40px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--line);
+      margin: 10px 0 14px;
     }
 
     .meta{
       color: var(--muted);
       font-size: 12px;
-      line-height: 1.5;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      letter-spacing: .01em;
+      line-height: 1.4;
     }
 
     .meta a{
@@ -186,17 +166,15 @@
       white-space: pre-wrap;
       border: 1px solid #f1c4cb;
       background: #fff5f6;
-      padding: 12px 16px;
+      padding: 10px 12px;
       border-radius: var(--radius);
-      display: none;
+      display:none;
     }
 
-    /* ── Card grid ── */
-
     .grid{
-      display: flex;
+      display:flex;
       flex-direction: column;
-      gap: 32px;
+      gap: 12px;
     }
 
     .card{
@@ -207,9 +185,9 @@
     }
 
     .card-head{
-      padding: 32px 36px 28px;
-      display: flex;
-      gap: 28px;
+      padding: 14px 14px 12px;
+      display:flex;
+      gap: 12px;
       align-items: flex-start;
       justify-content: space-between;
       flex-wrap: wrap;
@@ -218,253 +196,159 @@
 
     .titleblock{
       min-width: 260px;
-      flex: 1 1 560px;
+      flex: 1 1 520px;
     }
 
     .title-row{
-      display: flex;
-      gap: 14px;
-      align-items: baseline;
+      display:flex;
+      gap: 10px;
+      align-items: center;
       flex-wrap: wrap;
-    }
-
-    .dateline{
-      margin: 0 0 12px;
-      font-size: 11px;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--muted);
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      font-weight: 400;
     }
 
     .company{
       margin: 0;
-      font-size: 26px;
-      font-weight: 600;
-      letter-spacing: -.025em;
-      line-height: 1.15;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: .1px;
       color: var(--ink);
     }
 
-    .deck{
-      margin: 14px 0 0;
-      color: var(--muted);
-      font-size: 15.5px;
-      line-height: 1.7;
-      max-width: 66ch;
-      font-weight: 400;
-    }
-
     .badges{
-      display: flex;
-      gap: 6px;
+      display:flex;
+      gap: 8px;
       align-items: center;
       flex-wrap: wrap;
     }
 
     .badge{
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 2px 8px;
-      border-radius: var(--radius);
-      font-size: 10px;
-      font-weight: 600;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
       border: 1px solid transparent;
-      letter-spacing: .08em;
-      text-transform: uppercase;
+      letter-spacing: .2px;
       white-space: nowrap;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
     .badge.label-HOT{ background: var(--royal); color:#fff; }
     .badge.label-WARM{ background: var(--teal); color:#fff; }
     .badge.label-COLD{ background: var(--gray); color:#fff; }
-    .badge.label-NOISE{ background: var(--aqua); color: var(--navy); border-color: rgba(22,39,128,.18); }
+    .badge.label-NOISE{ background: var(--aqua); color: var(--navy); border-color: rgba(22,39,128,.25); }
     .badge.label-UNKNOWN{ background: #f3f3f3; color: #000; border-color: var(--line); }
 
     .badge.metric{
       background: #fff;
       border-color: var(--line);
       color: var(--navy);
-      font-weight: 600;
+      font-weight: 900;
     }
 
     .links{
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
+      display:flex;
+      gap: 8px;
+      align-items: center;
       flex-wrap: wrap;
       justify-content: flex-end;
       flex: 0 0 auto;
     }
 
-    .links-group{
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
     .chip{
-      display: inline-flex;
-      gap: 6px;
-      align-items: center;
+      display:inline-flex;
+      gap: 8px;
+      align-items:center;
       border: 1px solid var(--line);
       background: #fff;
       color: var(--navy);
-      padding: 6px 10px;
-      border-radius: var(--radius);
-      font-size: 11px;
-      font-weight: 500;
+      padding: 7px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 800;
       text-decoration: none;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      letter-spacing: .04em;
-      text-transform: uppercase;
     }
     .chip:hover{
-      border-color: rgba(0,42,216,.3);
+      border-color: rgba(0,42,216,.45);
       text-decoration: none;
     }
 
-    .data-callout{
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 14px 18px;
-      min-width: 220px;
-      background: #fff;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    }
-    .data-callout .k{
-      font-size: 10px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      margin-bottom: 6px;
-      font-weight: 400;
-    }
-    .data-callout .v{
-      font-size: 13px;
-      color: var(--ink);
-      line-height: 1.45;
-      font-weight: 500;
-    }
-
-    /* ── Narrative block ── */
-
-    .narrative{
-      padding: 28px 36px 32px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .body-copy{
-      font-size: 15px;
-      color: var(--ink);
-      max-width: 66ch;
-      line-height: 1.75;
-    }
-
-    .pull-quote{
-      margin: 22px 0 0;
-      border-left: 2px solid var(--line);
-      padding: 2px 0 2px 22px;
-      color: var(--ink);
-      font-size: 15px;
-      line-height: 1.7;
-      font-style: italic;
-      max-width: 60ch;
-    }
-
-    .closing-line{
-      margin-top: 20px;
-      color: var(--muted);
-      font-size: 13px;
-      max-width: 66ch;
-      line-height: 1.65;
-    }
-
-    /* ── Key-value grid ── */
-
     .kv{
-      padding: 28px 36px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
+      padding: 12px 14px 14px;
+      display:grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
     }
     @media (max-width: 1100px){
-      .kv{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .kv{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
     @media (max-width: 720px){
-      .kv{ grid-template-columns: 1fr; }
+      .kv{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     .kv-item{
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 14px 18px;
+      border-radius: 12px;
+      padding: 10px 10px 9px;
       background: #fff;
     }
     .kv-k{
-      font-size: 10px;
+      font-size: 11px;
       color: var(--muted);
-      font-weight: 400;
-      letter-spacing: .12em;
+      font-weight: 800;
+      letter-spacing: .15px;
       text-transform: uppercase;
-      margin-bottom: 7px;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin-bottom: 5px;
     }
     .kv-v{
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 13px;
+      font-weight: 900;
       color: #000;
       word-break: break-word;
-      line-height: 1.5;
     }
 
-    /* ── Score bars ── */
-
     .bars{
-      padding: 0 36px 28px;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
+      padding: 0 14px 14px;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    @media (max-width: 720px){
+      .bars{ grid-template-columns: 1fr; }
     }
 
     .barbox{
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 14px 18px;
+      border-radius: 12px;
+      padding: 10px;
       background: #fff;
     }
 
     .bar-top{
-      display: flex;
+      display:flex;
       align-items: baseline;
       justify-content: space-between;
       gap: 10px;
     }
 
     .bar-k{
-      font-size: 10px;
+      font-size: 11px;
       color: var(--muted);
-      font-weight: 400;
+      font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: .12em;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      letter-spacing: .15px;
     }
     .bar-v{
-      font-size: 12px;
-      font-weight: 500;
+      font-size: 13px;
+      font-weight: 900;
       color: #000;
       white-space: nowrap;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
     .bar{
       margin-top: 8px;
-      height: 5px;
+      height: 10px;
       border-radius: 999px;
       background: #f2f2f2;
       border: 1px solid var(--line);
@@ -477,8 +361,6 @@
     }
     .bar-fill.teal{ background: var(--teal); }
 
-    /* ── Collapsible sections ── */
-
     details.section{
       border-top: 1px solid var(--line);
       background: #fff;
@@ -486,130 +368,117 @@
 
     details.section > summary{
       list-style: none;
-      padding: 18px 36px;
+      padding: 12px 14px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
+      display:flex;
+      align-items:center;
       justify-content: space-between;
-      gap: 12px;
-      font-weight: 400;
+      gap: 10px;
+      font-weight: 900;
       color: var(--navy);
       user-select: none;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-size: 12px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
     }
     details.section > summary::-webkit-details-marker{ display:none; }
 
     .section-body{
-      padding: 0 36px 28px;
+      padding: 0 14px 14px;
       color: #000;
     }
 
     .small{
-      font-size: 13px;
+      font-size: 12px;
       color: var(--muted);
-      line-height: 1.7;
+      line-height: 1.45;
     }
 
     .subhead{
-      margin: 24px 0 10px;
-      font-weight: 400;
+      margin: 12px 0 6px;
+      font-weight: 900;
       color: var(--ink);
       font-size: 12px;
-      letter-spacing: .1em;
       text-transform: uppercase;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      letter-spacing: .15px;
     }
 
     .list{
-      margin: 8px 0 0;
-      padding-left: 22px;
+      margin: 6px 0 0;
+      padding-left: 16px;
       color: #000;
-      font-size: 14px;
-      line-height: 1.7;
+      font-size: 13px;
+      line-height: 1.45;
     }
-    .list li{ margin: 8px 0; }
+    .list li{ margin: 6px 0; }
 
     .src-grid{
-      display: flex;
+      display:flex;
       flex-direction: column;
-      gap: 10px;
-      margin-top: 8px;
+      gap: 8px;
+      margin-top: 6px;
     }
 
     .src-item{
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 14px 18px;
+      border-radius: 12px;
+      padding: 10px;
       background: #fff;
     }
 
     .src-title{
-      font-weight: 500;
+      font-weight: 900;
       font-size: 13px;
       color: var(--ink);
-      margin-bottom: 4px;
+      margin-bottom: 2px;
       word-break: break-word;
     }
 
     .src-why{
       font-size: 12px;
       color: var(--muted);
-      line-height: 1.65;
+      line-height: 1.45;
     }
 
     .chips{
-      display: flex;
+      display:flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin-top: 12px;
+      margin-top: 8px;
     }
 
     .mini{
-      display: inline-flex;
-      align-items: center;
-      padding: 3px 8px;
-      border-radius: var(--radius);
-      font-size: 10px;
-      font-weight: 500;
+      display:inline-flex;
+      align-items:center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
       border: 1px solid var(--line);
       background: #fff;
       color: var(--navy);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      letter-spacing: .03em;
     }
 
-    /* ── Load more & footer ── */
-
     .loadmore{
-      margin: 28px 0 0;
-      display: flex;
+      margin: 14px 0 0;
+      display:flex;
       justify-content: center;
     }
 
     .loadmore button{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: var(--royal);
       border: 1px solid rgba(0,42,216,.25);
       color: #fff;
-      padding: 9px 24px;
-      border-radius: var(--radius);
+      padding: 10px 12px;
+      border-radius: 12px;
       cursor: pointer;
-      font-weight: 400;
-      font-size: 11px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: .2px;
     }
     .loadmore button:hover{ background: #001fb0; }
 
     .footer-note{
-      margin: 44px 0 0;
+      margin: 14px 0 0;
       font-size: 12px;
       color: var(--muted);
-      line-height: 1.7;
-      letter-spacing: .01em;
+      line-height: 1.45;
     }
   </style>
 </head>
@@ -755,14 +624,6 @@
   function fmtNum(n, digits=2){
     if (n === null || n === undefined || !Number.isFinite(n)) return "";
     return n.toFixed(digits);
-  }
-
-  function fmtDate(raw){
-    const s = String(raw ?? "").trim();
-    if (!s) return "";
-    const d = new Date(s);
-    if (Number.isNaN(d.getTime())) return s;
-    return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
   }
 
   function clamp01(n){
@@ -938,63 +799,32 @@
 
     const argsSummary = String(args?.summary ?? "").trim();
     const analyst = String(args?.agent_analyst_comment ?? "").trim();
-    const dateline = fmtDate(r.transaction_date) || "Date not disclosed";
-
-    const deckText =
-      argsSummary ||
-      analyst ||
-      [
-        r.hq ? `Headquartered in ${String(r.hq).trim()}` : "",
-        r.industry_proxi ? `active in ${String(r.industry_proxi).trim()}` : "",
-        r.transaction_type ? `with a ${String(r.transaction_type).trim()} context` : ""
-      ].filter(Boolean).join(", ") ||
-      "Profile assembled from source-linked signals and model annotations.";
-
-    const bodyBits = [
-      r.hq ? `HQ: ${esc(r.hq)}` : "",
-      r.ownership ? `Ownership: ${esc(r.ownership)}` : "",
-      r.industry_proxi ? `Industry: ${esc(r.industry_proxi)}` : "",
-      r.fte ? `FTE: ${esc(r.fte)}` : "",
-      r.transaction_type ? `Transaction type: ${esc(r.transaction_type)}` : ""
-    ].filter(Boolean);
-
-    const bodyLine = bodyBits.length ? bodyBits.join(" · ") : "Core company descriptors are limited in the current record.";
-    const quoteText = String(reasons[0]?.text ?? "").trim();
-    const closingLine = label === "UNKNOWN"
-      ? "Classification remains provisional pending additional evidence."
-      : `Current classification: ${esc(label)}.`;
 
     return `
       <div class="card">
         <div class="card-head">
           <div class="titleblock">
-            <div class="dateline">${esc(dateline)}</div>
             <div class="title-row">
               <h2 class="company">${esc(company)}</h2>
               <div class="badges">
                 <span class="badge ${esc(labelClass)}">${esc(label)}</span>
+                <span class="badge metric">hot_score: ${hot == null ? "—" : esc(fmtNum(hot, 3))}</span>
+                <span class="badge metric">priority: ${pri == null ? "—" : esc(fmtNum(pri, 3))}</span>
               </div>
             </div>
-            <div class="deck">${esc(deckText)}</div>
+
+            <div class="small" style="margin-top:6px;">
+              ${r.hq ? `<span><b>HQ:</b> ${esc(r.hq)}</span>` : ""}
+              ${r.ownership ? ` &nbsp;·&nbsp; <span><b>Ownership:</b> ${esc(r.ownership)}</span>` : ""}
+              ${r.industry_proxi ? ` &nbsp;·&nbsp; <span><b>Industry:</b> ${esc(r.industry_proxi)}</span>` : ""}
+            </div>
           </div>
 
           <div class="links">
-            <div class="data-callout">
-              <div class="k">Data callout</div>
-              <div class="v">Hot score ${hot == null ? "—" : esc(fmtNum(hot, 3))} · Priority ${pri == null ? "—" : esc(fmtNum(pri, 3))}</div>
-            </div>
-            <div class="links-group">
-              ${website ? `<a class="chip" href="${esc(website)}" target="_blank" rel="noopener">Website</a>` : ""}
-              ${linkedin ? `<a class="chip" href="${esc(linkedin)}" target="_blank" rel="noopener">LinkedIn</a>` : ""}
-              <a class="chip" href="${esc(CSV_URL)}" target="_blank" rel="noopener">CSV</a>
-            </div>
+            ${website ? `<a class="chip" href="${esc(website)}" target="_blank" rel="noopener">Website</a>` : ""}
+            ${linkedin ? `<a class="chip" href="${esc(linkedin)}" target="_blank" rel="noopener">LinkedIn</a>` : ""}
+            <a class="chip" href="${esc(CSV_URL)}" target="_blank" rel="noopener">CSV</a>
           </div>
-        </div>
-
-        <div class="narrative">
-          <div class="body-copy">${bodyLine}</div>
-          ${quoteText ? `<div class="pull-quote">${esc(quoteText)}</div>` : ""}
-          <div class="closing-line">${closingLine}</div>
         </div>
 
         <div class="kv">
@@ -1042,11 +872,11 @@
         <details class="section" open>
           <summary>
             <span>Arguments (model output)</span>
-            <span class="small">Stage: ${esc(args?.deal_stage ?? "—")}</span>
+            <span class="small"><b>Stage:</b> ${args?.deal_stage ?? "—"}</span>
           </summary>
           <div class="section-body">
-            ${argsSummary ? `<div class="small">Summary: ${esc(argsSummary)}</div>` : `<div class="small">Summary: —</div>`}
-            ${analyst ? `<div class="small" style="margin-top:6px;">Analyst agent comment: ${esc(analyst)}</div>` : ""}
+            ${argsSummary ? `<div class="small"><b>Summary:</b> ${esc(argsSummary)}</div>` : `<div class="small"><b>Summary:</b> —</div>`}
+            ${analyst ? `<div class="small" style="margin-top:6px;"><b>Analyst Agent comment:</b> ${esc(analyst)}</div>` : ""}
 
             <div class="chips">
               <span class="mini">deal_role: ${esc(args?.deal_role ?? "—")}</span>
@@ -1069,8 +899,8 @@
           </summary>
           <div class="section-body">
             <div class="small">
-              ${mna?.base_root ? `Base: ${esc(mna.base_root)} &nbsp;·&nbsp; ` : ""}
-              ${mna?.retrieved_at_utc ? `Retrieved: ${esc(mna.retrieved_at_utc)}` : ""}
+              ${mna?.base_root ? `<b>Base:</b> ${esc(mna.base_root)} &nbsp;·&nbsp; ` : ""}
+              ${mna?.retrieved_at_utc ? `<b>Retrieved:</b> ${esc(mna.retrieved_at_utc)}` : ""}
             </div>
 
             <div class="subhead">Sources</div>
