@@ -778,6 +778,105 @@
     .bd-gate.warn{ border-color: #b87a00; color: #b87a00; background: #fffbf0; }
     .bd-gate.fail{ border-color: #b00020; color: #b00020; background: #fff5f6; }
 
+    .bd-matrix-wrap{
+      margin-top: 2px;
+      overflow-x: auto;
+    }
+    .bd-matrix{
+      border-collapse: collapse;
+      font-family: var(--sans);
+      font-size: 11px;
+      width: 100%;
+      min-width: 480px;
+    }
+    .bd-matrix th,
+    .bd-matrix td{
+      padding: 6px 8px;
+      text-align: center;
+      border: 1px solid var(--line);
+    }
+    .bd-matrix th{
+      background: #fafafa;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .2px;
+    }
+    .bd-matrix th.corner{
+      background: none;
+      border-color: transparent;
+    }
+    .bd-matrix th.row-h{
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .bd-matrix td{
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      font-weight: 500;
+    }
+    .bd-matrix td.here{
+      background: var(--navy);
+      color: #fff;
+      font-weight: 700;
+      border-radius: 0;
+    }
+    .bd-matrix td.band-row{ background: rgba(0,42,216,.03); }
+    .bd-matrix td.band-col{ background: rgba(0,42,216,.03); }
+    .bd-matrix td.band-row.band-col{ background: rgba(0,42,216,.06); }
+    .bd-matrix-note{
+      font-family: var(--serif);
+      font-size: 12px;
+      font-style: italic;
+      color: var(--gray);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    .bd-matrix-outside{
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 2px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fcfcfc;
+    }
+
+    .bd-drivers{
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .bd-driver{
+      display: inline-flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-family: var(--sans);
+    }
+    .bd-driver.active{ border-color: rgba(1,89,88,.3); background: rgba(1,89,88,.03); }
+    .bd-driver.inactive{ background: #fcfcfc; }
+    .bd-driver-label{
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      color: var(--gray);
+      font-weight: 500;
+    }
+    .bd-driver-value{
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .bd-driver.active .bd-driver-value{ color: var(--teal); }
+    .bd-driver.inactive .bd-driver-value{ color: var(--gray); }
+
   </style>
 </head>
 
@@ -1130,6 +1229,81 @@
         </div>`;
     }).join("");
 
+    // ── 2b. Growth (FTE × Growth) matrix ───────────────────
+    const G_ROWS = [
+      { label: "50\u201399",     min: 50,   max: 99 },
+      { label: "100\u2013199",   min: 100,  max: 199 },
+      { label: "200\u2013499",   min: 200,  max: 499 },
+      { label: "500\u2013999",   min: 500,  max: 999 },
+      { label: "1,000+",         min: 1000, max: Infinity },
+    ];
+    const G_COLS = [
+      { label: "< 0%",      min: -Infinity, max: -0.001 },
+      { label: "0\u201310%",  min: 0,   max: 0.10 },
+      { label: "10\u201320%", min: 0.10, max: 0.20 },
+      { label: "20\u201330%", min: 0.20, max: 0.30 },
+      { label: "30\u201340%", min: 0.30, max: 0.40 },
+      { label: "40\u201350%", min: 0.40, max: 0.50 },
+      { label: "50\u2013100%",min: 0.50, max: 1.00 },
+      { label: "> 100%",     min: 1.00, max: Infinity },
+    ];
+    const G_MATRIX = [
+      [0.2, 0.4, 0.6, 0.6, 0.8, 0.8, 1.0, 1.0],
+      [0.2, 0.4, 0.6, 0.6, 0.8, 1.0, 1.0, 1.0],
+      [0.2, 0.4, 0.6, 0.8, 1.0, 1.0, 1.0, 1.0],
+      [0.2, 0.6, 0.8, 1.0, 1.0, 1.0, 1.0, 1.0],
+      [0.2, 0.8, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+    ];
+
+    let matrixHTML = "";
+    const fte = inp.fte;
+    const fteg = inp.fte_growth;
+
+    if (fte != null && fte >= 50 && fteg != null) {
+      const activeRow = G_ROWS.findIndex(r => fte >= r.min && fte <= r.max);
+      const activeCol = G_COLS.findIndex(c => fteg > c.min && fteg <= c.max);
+      const correctedCol = (fteg < 0) ? 0 : (fteg === 0) ? 1 : activeCol;
+
+      const colHeaders = G_COLS.map((c, ci) =>
+        `<th${ci === correctedCol ? ' style="background:rgba(0,42,216,.07)"' : ""}>${esc(c.label)}</th>`
+      ).join("");
+
+      const rows = G_ROWS.map((r, ri) => {
+        const isActiveRow = ri === activeRow;
+        const cells = G_MATRIX[ri].map((v, ci) => {
+          const isHere = isActiveRow && ci === correctedCol;
+          const pctVal = Math.round(v * 100);
+          let cls = "";
+          if (isHere)          cls = "here";
+          else if (isActiveRow && ci === correctedCol) cls = "here";
+          else if (isActiveRow) cls = "band-row";
+          else if (ci === correctedCol) cls = "band-col";
+          return `<td class="${cls}">${pctVal}%</td>`;
+        }).join("");
+        return `<tr><th class="row-h"${isActiveRow ? ' style="background:rgba(0,42,216,.07);font-weight:700"' : ""}>${esc(r.label)}</th>${cells}</tr>`;
+      }).join("");
+
+      const gScorePct = Math.round((bd.g_score ?? 0) * 100);
+      matrixHTML = `
+        <div class="bd-matrix-wrap">
+          <table class="bd-matrix">
+            <thead><tr>
+              <th class="corner">FTE \\ Growth</th>
+              ${colHeaders}
+            </tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+        <div class="bd-matrix-note">
+          ${esc(Number(fte).toLocaleString())} FTE at ${esc(Math.round(fteg * 100))}% growth \u2192 score ${gScorePct}%
+        </div>`;
+    } else {
+      const reason = fte == null ? "FTE unknown"
+        : fte < 50 ? "FTE below 50 (outside matrix)"
+        : "Growth data missing";
+      matrixHTML = `<div class="bd-matrix-outside">${esc(reason)} \u2014 growth score is 0%.</div>`;
+    }
+
     // ── 3. Base score composition ────────────────────────────
     const COMP_META = {
       g_x_industry2:      { wt: 50,  label: "Growth \u00d7 Industry heat", fkeys: ["g_score","industry2_score"] },
@@ -1188,28 +1362,56 @@
     // ── 4. Engagement boost ──────────────────────────────────
     let engageHTML = "";
     if (bd.e_ind) {
-      const reason = (nProj >= 2)
-        ? (nProj + " projects \u2265 2 threshold")
-        : ((norm.ownership_norm || "?") + " ownership qualifies");
-
-      let alphaNote = "Base " + p(bd.alpha_base) + " from project index";
-      if ((bd.k_index ?? 0) > 0) alphaNote += " + competitor signal";
       const own = (norm.ownership_norm || "").toUpperCase();
+
+      const drivers = [];
+      drivers.push({
+        label: "Projects",
+        value: nProj + " project" + (nProj !== 1 ? "s" : ""),
+        active: nProj >= 2,
+        note: nProj >= 2 ? "\u2265 2 threshold" : "below threshold",
+      });
+      drivers.push({
+        label: "Competitor signal",
+        value: nComp + " competitor" + (nComp !== 1 ? "s" : ""),
+        active: (bd.k_index ?? 0) > 0,
+        note: (bd.k_index ?? 0) > 0 ? "contributes to alpha" : "no signal",
+      });
+      const ownerLabel = own === "PE-BACKED" || own === "VC-BACKED" ? "PE / VC-backed"
+        : own === "ACQUIRED" ? "Acquired"
+        : own === "PRIVATELY-HELD" ? "Privately held"
+        : own || "Unknown";
+      const ownerActive = ["PE-BACKED","VC-BACKED","ACQUIRED","PRIVATELY-HELD"].includes(own);
+      let ownerNote = "";
       if (nProj >= 2) {
-        if (["PE-BACKED","VC-BACKED"].includes(own))  alphaNote += ", +25% PE/VC boost";
-        else if (own === "ACQUIRED")                   alphaNote += ", +15% acquired boost";
-        else if (own === "PRIVATELY-HELD")              alphaNote += ", +10% privately-held boost";
+        if (["PE-BACKED","VC-BACKED"].includes(own))  ownerNote = "+25% boost to alpha";
+        else if (own === "ACQUIRED")                   ownerNote = "+15% boost to alpha";
+        else if (own === "PRIVATELY-HELD")              ownerNote = "+10% boost to alpha";
+        else ownerNote = "no ownership boost";
       } else {
-        if (["PE-BACKED","VC-BACKED"].includes(own))  alphaNote += ", \u00d780% PE/VC adj.";
-        else if (own === "ACQUIRED")                   alphaNote += ", \u00d770% acquired adj.";
-        else if (own === "PRIVATELY-HELD")              alphaNote += ", \u00d765% privately-held adj.";
+        if (["PE-BACKED","VC-BACKED"].includes(own))  ownerNote = "\u00d780% on alpha (< 2 projects)";
+        else if (own === "ACQUIRED")                   ownerNote = "\u00d770% on alpha (< 2 projects)";
+        else if (own === "PRIVATELY-HELD")              ownerNote = "\u00d765% on alpha (< 2 projects)";
+        else ownerNote = "no ownership effect";
       }
+      drivers.push({
+        label: "Ownership type",
+        value: ownerLabel,
+        active: ownerActive,
+        note: ownerNote,
+      });
 
       engageHTML = `
         <div class="bd-engage">
-          <div class="bd-engage-row"><span class="bd-engage-key">Engaged</span> Yes \u2014 ${esc(reason)}</div>
-          <div class="bd-engage-row"><span class="bd-engage-key">Alpha</span> ${p(bd.alpha)} <span class="bd-engage-note">(${esc(alphaNote)})</span></div>
-          <div class="bd-engage-row"><span class="bd-engage-key">Effect</span> +${boostPts} pts added to base <span class="bd-engage-note">(\u03b1 \u00d7 remaining headroom)</span></div>
+          <div class="bd-engage-row"><span class="bd-engage-key">Status</span> Engaged \u2014 +${boostPts} pts added to base score</div>
+        </div>
+        <div class="bd-drivers">
+          ${drivers.map(d => `
+            <div class="bd-driver ${d.active ? "active" : "inactive"}">
+              <div class="bd-driver-label">${esc(d.label)}</div>
+              <div class="bd-driver-value">${esc(d.value)}</div>
+              <div class="bd-driver-label">${esc(d.note)}</div>
+            </div>`).join("")}
         </div>`;
     } else {
       engageHTML = '<div class="bd-engage"><div class="bd-engage-row">Not engaged \u2014 no boost applied.</div></div>';
@@ -1239,6 +1441,8 @@
       ${headlineHTML}
       <div class="subhead">What the model sees</div>
       <div class="bd-tiles">${tilesHTML}</div>
+      <div class="subhead">Growth score matrix &mdash; FTE size &times; growth rate</div>
+      ${matrixHTML}
       <div class="subhead">Base score composition \u2014 ${basePts} / 100</div>
       <div class="bd-comps">${compHTML}</div>
       <div class="subhead">Engagement boost</div>
