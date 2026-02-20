@@ -1333,12 +1333,11 @@
       .filter(([, v]) => typeof v === "number")
       .sort((a, b) => b[1] - a[1]);
 
-    const maxComp = Math.max(...compEntries.map(([, v]) => v), 0.001);
-
     const compHTML = compEntries.length
       ? compEntries.map(([k, v]) => {
           const meta = COMP_META[k] || { wt: "?", label: k.replace(/_/g, " "), fkeys: [] };
-          const barPct = Math.round((v / maxComp) * 100);
+          const maxForThis = (meta.wt ?? 1) / 100;
+          const barPct = maxForThis > 0 ? Math.round((v / maxForThis) * 100) : 0;
           const contribution = Math.round(v * 100);
           const maxPoss = meta.wt;
           const calcLine = (meta.fkeys || []).map(fk =>
