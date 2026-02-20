@@ -6,28 +6,35 @@
   <meta name="color-scheme" content="light" />
   <title>Hot Companies</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+
   <style>
     :root{
       color-scheme: light;
 
-      /* Core palette (solid, no gradients) */
-      --navy: #162780;   /* Pantone 2748 C */
-      --royal: #002AD8;  /* Pantone 2728 C */
-      --aqua: #92F6FF;   /* Pantone 635 C */
-      --cyan: #00CCCC;   /* Pantone 3262 C */
-      --teal: #015958;   /* Pantone 323 C */
+      /* Core palette — unchanged */
+      --navy:  #162780;
+      --royal: #002AD8;
+      --aqua:  #92F6FF;
+      --cyan:  #00CCCC;
+      --teal:  #015958;
 
-      /* Neutrals */
-      --bg: #FFFFFF;
-      --ink: #000000;
+      /* Neutrals — unchanged */
+      --bg:    #FFFFFF;
+      --ink:   #000000;
       --muted: #4a4a4a;
-      --gray: #808080;
-      --line: #E6E6E6;
+      --gray:  #808080;
+      --line:  #E6E6E6;
 
-      --radius: 14px;
+      --radius: 12px;
+
+      --serif:   'Lora', Georgia, 'Times New Roman', serif;
+      --sans:    system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+      --display: 'Playfair Display', Georgia, serif;
     }
 
-    /* IMPORTANT: set html background (not just body) */
     html{
       background: var(--bg);
       color: var(--ink);
@@ -39,54 +46,60 @@
       min-height: 100%;
       background: var(--bg);
       color: var(--ink);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family: var(--serif);
+      font-size: 15px;
+      line-height: 1.65;
     }
 
     a{ color: inherit; text-decoration: none; }
     a:hover{ text-decoration: underline; }
     *{ box-sizing: border-box; }
 
+    /* ── Topbar ────────────────────────────────────────────── */
     .topbar{
       position: sticky;
       top: 0;
       z-index: 50;
       background: var(--navy);
       color: #fff;
-      border-bottom: 1px solid rgba(255,255,255,.15);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      font-family: var(--sans);
     }
 
     .topbar-inner{
-      max-width: 1160px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 14px 18px;
+      padding: 14px 32px;
       display: flex;
-      gap: 14px;
+      gap: 16px;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
     }
 
     .brand{
-      display:flex;
+      display: flex;
       align-items: baseline;
-      gap: 10px;
+      gap: 12px;
     }
 
     .brand h1{
       margin: 0;
+      font-family: var(--display);
       font-size: 16px;
-      letter-spacing: .2px;
-      font-weight: 800;
+      font-weight: 600;
+      letter-spacing: -.1px;
     }
 
     .brand .sub{
-      font-size: 12px;
-      color: rgba(255,255,255,.85);
+      font-size: 11px;
+      color: rgba(255,255,255,.65);
       white-space: nowrap;
+      letter-spacing: .1px;
     }
 
     .controls{
-      display:flex;
+      display: flex;
       gap: 10px;
       align-items: center;
       flex-wrap: wrap;
@@ -96,62 +109,73 @@
       background: #fff;
       color: #000;
       border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 9px 10px;
+      border-radius: 8px;
+      padding: 9px 12px;
       min-width: 280px;
       outline: none;
+      font-family: var(--sans);
+      font-size: 13px;
     }
     .input:focus{
       border-color: var(--royal);
-      box-shadow: 0 0 0 2px rgba(0,42,216,.18);
+      box-shadow: 0 0 0 2px rgba(0,42,216,.13);
     }
 
     .btn{
-      border: 1px solid rgba(255,255,255,.25);
+      border: 1px solid rgba(255,255,255,.2);
       background: transparent;
       color: #fff;
-      padding: 9px 10px;
-      border-radius: 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
       cursor: pointer;
-      font-weight: 700;
+      font-weight: 500;
       font-size: 12px;
-      letter-spacing: .2px;
+      letter-spacing: .15px;
+      font-family: var(--sans);
     }
-    .btn:hover{ border-color: rgba(255,255,255,.45); }
+    .btn:hover{ border-color: rgba(255,255,255,.4); }
 
     .pill{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 6px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
       border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      border: 1px solid rgba(255,255,255,.25);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .15px;
+      border: 1px solid rgba(255,255,255,.2);
       background: rgba(255,255,255,.08);
       color: #fff;
       white-space: nowrap;
     }
 
+    /* ── Main layout ────────────────────────────────────────── */
     .main{
-      max-width: 1160px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 18px;
+      padding: 36px 40px;
+    }
+
+    @media (max-width: 720px){
+      .main{ padding: 22px 18px; }
+      .topbar-inner{ padding: 12px 18px; }
     }
 
     .meta-row{
-      display:flex;
-      gap: 10px;
+      display: flex;
+      gap: 12px;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      margin: 10px 0 14px;
+      margin: 0 0 28px;
     }
 
     .meta{
       color: var(--muted);
       font-size: 12px;
-      line-height: 1.4;
+      line-height: 1.5;
+      font-family: var(--sans);
     }
 
     .meta a{
@@ -166,15 +190,17 @@
       white-space: pre-wrap;
       border: 1px solid #f1c4cb;
       background: #fff5f6;
-      padding: 10px 12px;
+      padding: 12px 16px;
       border-radius: var(--radius);
-      display:none;
+      display: none;
+      font-family: var(--sans);
     }
 
+    /* ── Card grid ──────────────────────────────────────────── */
     .grid{
-      display:flex;
+      display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 22px;
     }
 
     .card{
@@ -184,10 +210,11 @@
       overflow: hidden;
     }
 
+    /* ── Card header ────────────────────────────────────────── */
     .card-head{
-      padding: 14px 14px 12px;
-      display:flex;
-      gap: 12px;
+      padding: 24px 26px 20px;
+      display: flex;
+      gap: 16px;
       align-items: flex-start;
       justify-content: space-between;
       flex-wrap: wrap;
@@ -200,55 +227,84 @@
     }
 
     .title-row{
-      display:flex;
-      gap: 10px;
+      display: flex;
+      gap: 12px;
       align-items: center;
       flex-wrap: wrap;
     }
 
     .company{
       margin: 0;
-      font-size: 16px;
-      font-weight: 900;
-      letter-spacing: .1px;
+      font-family: var(--display);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -.25px;
       color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .tx-date{
+      margin-top: 6px;
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--gray);
+      letter-spacing: .25px;
+      text-transform: uppercase;
+    }
+
+    .card-meta{
+      margin-top: 8px;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .field-label{
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      color: var(--gray);
+      font-weight: 500;
+      font-family: var(--sans);
     }
 
     .badges{
-      display:flex;
-      gap: 8px;
+      display: flex;
+      gap: 6px;
       align-items: center;
       flex-wrap: wrap;
     }
 
     .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding: 4px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
       border-radius: 999px;
-      font-size: 12px;
-      font-weight: 900;
+      font-size: 10px;
+      font-weight: 600;
       border: 1px solid transparent;
-      letter-spacing: .2px;
+      letter-spacing: .3px;
       white-space: nowrap;
+      font-family: var(--sans);
+      text-transform: uppercase;
     }
 
-    .badge.label-HOT{ background: var(--royal); color:#fff; }
-    .badge.label-WARM{ background: var(--teal); color:#fff; }
-    .badge.label-COLD{ background: var(--gray); color:#fff; }
-    .badge.label-NOISE{ background: var(--aqua); color: var(--navy); border-color: rgba(22,39,128,.25); }
+    .badge.label-HOT    { background: var(--royal); color: #fff; }
+    .badge.label-WARM   { background: var(--teal);  color: #fff; }
+    .badge.label-COLD   { background: var(--gray);  color: #fff; }
+    .badge.label-NOISE  { background: var(--aqua);  color: var(--navy); border-color: rgba(22,39,128,.2); }
     .badge.label-UNKNOWN{ background: #f3f3f3; color: #000; border-color: var(--line); }
 
     .badge.metric{
       background: #fff;
       border-color: var(--line);
       color: var(--navy);
-      font-weight: 900;
     }
 
     .links{
-      display:flex;
+      display: flex;
       gap: 8px;
       align-items: center;
       flex-wrap: wrap;
@@ -257,26 +313,29 @@
     }
 
     .chip{
-      display:inline-flex;
-      gap: 8px;
-      align-items:center;
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
       border: 1px solid var(--line);
       background: #fff;
       color: var(--navy);
-      padding: 7px 10px;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 800;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 500;
       text-decoration: none;
+      font-family: var(--sans);
+      letter-spacing: .1px;
     }
     .chip:hover{
-      border-color: rgba(0,42,216,.45);
+      border-color: rgba(0,42,216,.35);
       text-decoration: none;
     }
 
+    /* ── KV grid ────────────────────────────────────────────── */
     .kv{
-      padding: 12px 14px 14px;
-      display:grid;
+      padding: 18px 26px 22px;
+      display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 10px;
     }
@@ -289,30 +348,33 @@
 
     .kv-item{
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px 10px 9px;
+      border-radius: 10px;
+      padding: 10px 12px;
       background: #fff;
     }
     .kv-k{
-      font-size: 11px;
+      font-size: 10px;
       color: var(--muted);
-      font-weight: 800;
-      letter-spacing: .15px;
+      font-weight: 500;
+      letter-spacing: .35px;
       text-transform: uppercase;
       margin-bottom: 5px;
+      font-family: var(--sans);
     }
     .kv-v{
-      font-size: 13px;
-      font-weight: 900;
+      font-size: 14px;
+      font-weight: 600;
       color: #000;
       word-break: break-word;
+      font-family: var(--sans);
     }
 
+    /* ── Score bars ─────────────────────────────────────────── */
     .bars{
-      padding: 0 14px 14px;
-      display:grid;
+      padding: 0 26px 22px;
+      display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+      gap: 12px;
     }
     @media (max-width: 720px){
       .bars{ grid-template-columns: 1fr; }
@@ -320,35 +382,37 @@
 
     .barbox{
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px;
+      border-radius: 10px;
+      padding: 12px 14px;
       background: #fff;
     }
 
     .bar-top{
-      display:flex;
+      display: flex;
       align-items: baseline;
       justify-content: space-between;
       gap: 10px;
     }
 
     .bar-k{
-      font-size: 11px;
+      font-size: 10px;
       color: var(--muted);
-      font-weight: 900;
+      font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: .15px;
+      letter-spacing: .35px;
+      font-family: var(--sans);
     }
     .bar-v{
       font-size: 13px;
-      font-weight: 900;
+      font-weight: 600;
       color: #000;
       white-space: nowrap;
+      font-family: var(--sans);
     }
 
     .bar{
       margin-top: 8px;
-      height: 10px;
+      height: 5px;
       border-radius: 999px;
       background: #f2f2f2;
       border: 1px solid var(--line);
@@ -361,6 +425,7 @@
     }
     .bar-fill.teal{ background: var(--teal); }
 
+    /* ── Collapsible sections ───────────────────────────────── */
     details.section{
       border-top: 1px solid var(--line);
       background: #fff;
@@ -368,117 +433,166 @@
 
     details.section > summary{
       list-style: none;
-      padding: 12px 14px;
+      padding: 15px 26px;
       cursor: pointer;
-      display:flex;
-      align-items:center;
+      display: flex;
+      align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      font-weight: 900;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 13px;
       color: var(--navy);
       user-select: none;
+      font-family: var(--sans);
+      letter-spacing: .05px;
     }
-    details.section > summary::-webkit-details-marker{ display:none; }
+    details.section > summary::-webkit-details-marker{ display: none; }
+
+    .section-meta{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
+      font-style: italic;
+      font-family: var(--serif);
+    }
 
     .section-body{
-      padding: 0 14px 14px;
+      padding: 0 26px 24px;
       color: #000;
+    }
+
+    /* ── Editorial elements ─────────────────────────────────── */
+    .pull-quote{
+      margin: 4px 0 14px;
+      padding: 12px 16px;
+      border-left: 2px solid var(--navy);
+      font-style: italic;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+      background: #fafafa;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .analyst-note{
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .attr{
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: .45px;
+      color: var(--gray);
+      font-weight: 500;
+      font-family: var(--sans);
+      font-style: normal;
     }
 
     .small{
-      font-size: 12px;
+      font-size: 13px;
       color: var(--muted);
-      line-height: 1.45;
+      line-height: 1.55;
     }
 
     .subhead{
-      margin: 12px 0 6px;
-      font-weight: 900;
-      color: var(--ink);
-      font-size: 12px;
+      margin: 20px 0 8px;
+      font-weight: 500;
+      color: var(--muted);
+      font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: .15px;
+      letter-spacing: .45px;
+      font-family: var(--sans);
     }
 
     .list{
-      margin: 6px 0 0;
-      padding-left: 16px;
+      margin: 8px 0 0;
+      padding-left: 18px;
       color: #000;
-      font-size: 13px;
-      line-height: 1.45;
+      font-size: 14px;
+      line-height: 1.65;
     }
-    .list li{ margin: 6px 0; }
+    .list li{ margin: 8px 0; }
 
     .src-grid{
-      display:flex;
+      display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-top: 6px;
+      margin-top: 8px;
     }
 
     .src-item{
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px;
+      border-radius: 10px;
+      padding: 12px 14px;
       background: #fff;
     }
 
     .src-title{
-      font-weight: 900;
+      font-weight: 500;
       font-size: 13px;
       color: var(--ink);
-      margin-bottom: 2px;
+      margin-bottom: 3px;
       word-break: break-word;
+      font-family: var(--sans);
     }
 
     .src-why{
-      font-size: 12px;
+      font-size: 13px;
       color: var(--muted);
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     .chips{
-      display:flex;
-      gap: 8px;
+      display: flex;
+      gap: 6px;
       flex-wrap: wrap;
-      margin-top: 8px;
+      margin: 10px 0 4px;
     }
 
     .mini{
-      display:inline-flex;
-      align-items:center;
-      padding: 4px 8px;
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
       border-radius: 999px;
-      font-size: 12px;
-      font-weight: 900;
+      font-size: 11px;
+      font-weight: 500;
       border: 1px solid var(--line);
       background: #fff;
       color: var(--navy);
+      font-family: var(--sans);
+      letter-spacing: .1px;
     }
 
+    /* ── Load more / footer ─────────────────────────────────── */
     .loadmore{
-      margin: 14px 0 0;
-      display:flex;
+      margin: 28px 0 0;
+      display: flex;
       justify-content: center;
     }
 
     .loadmore button{
       background: var(--royal);
-      border: 1px solid rgba(0,42,216,.25);
+      border: 1px solid rgba(0,42,216,.2);
       color: #fff;
-      padding: 10px 12px;
-      border-radius: 12px;
+      padding: 11px 28px;
+      border-radius: 10px;
       cursor: pointer;
-      font-weight: 900;
-      letter-spacing: .2px;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: .15px;
+      font-family: var(--sans);
     }
     .loadmore button:hover{ background: #001fb0; }
 
     .footer-note{
-      margin: 14px 0 0;
+      margin: 30px 0 0;
       font-size: 12px;
       color: var(--muted);
-      line-height: 1.45;
+      line-height: 1.55;
+      font-family: var(--sans);
     }
   </style>
 </head>
@@ -727,7 +841,7 @@
     const label = r._label || "UNKNOWN";
     const labelClass = `label-${label}`;
 
-    const website = normalizeUrl(r.norm_company_website);
+    const website  = normalizeUrl(r.norm_company_website);
     const linkedin = normalizeUrl(r.norm_company_linkedin);
 
     const published = boolish(r.is_published_on_origin);
@@ -735,15 +849,14 @@
     const originId = String(r.origin_id ?? "").trim();
     const originCompanyUrl = originId ? `https://origin.dialecticanet.com/companies/${encodeURIComponent(originId)}` : "";
 
-
     const hotPct = Math.round(clamp01(hot ?? 0) * 100);
     const priPct = Math.round(clamp01(pri ?? 0) * 100);
 
-    const args = r._arguments;
+    const args    = r._arguments;
     const reasons = Array.isArray(args?.reasons) ? args.reasons : [];
     const sources = Array.isArray(args?.sources) ? args.sources : [];
 
-    const mna = r._mna;
+    const mna        = r._mna;
     const mnaSources = Array.isArray(mna?.sources) ? mna.sources : [];
 
     const reasonHTML = reasons.length
@@ -760,9 +873,9 @@
     const sourceHTML = sources.length
       ? `<div class="src-grid">${
           sources.map(s => {
-            const url = String(s?.url ?? "").trim();
+            const url   = String(s?.url ?? "").trim();
             const title = String(s?.title ?? "").trim() || url || "(source)";
-            const why = String(s?.why ?? "").trim();
+            const why   = String(s?.why ?? "").trim();
             const safeUrl = url ? esc(url) : "";
             return `
               <div class="src-item">
@@ -779,9 +892,9 @@
     const mnaSourcesHTML = mnaSources.length
       ? `<div class="src-grid">${
           mnaSources.map(s => {
-            const url = String(s?.final_url ?? s?.requested_url ?? "").trim();
+            const url   = String(s?.final_url ?? s?.requested_url ?? "").trim();
             const title = String(s?.title ?? "").trim() || url || "(source)";
-            const meta = [
+            const meta  = [
               s?.status != null ? `status ${s.status}` : "",
               s?.source_type ? String(s.source_type) : ""
             ].filter(Boolean).join(" · ");
@@ -798,7 +911,16 @@
       : `<div class="small">No sources in mna_signal_snippets.</div>`;
 
     const argsSummary = String(args?.summary ?? "").trim();
-    const analyst = String(args?.agent_analyst_comment ?? "").trim();
+    const analyst     = String(args?.agent_analyst_comment ?? "").trim();
+
+    const txDate = String(r.transaction_date ?? "").trim();
+    const txType = String(r.transaction_type ?? "").trim();
+    const txLine = [txDate, txType].filter(Boolean).join(" · ");
+
+    const metaParts = [];
+    if (r.hq)            metaParts.push(`<span><span class="field-label">HQ</span>&thinsp;${esc(r.hq)}</span>`);
+    if (r.ownership)     metaParts.push(`<span><span class="field-label">Ownership</span>&thinsp;${esc(r.ownership)}</span>`);
+    if (r.industry_proxi)metaParts.push(`<span><span class="field-label">Industry</span>&thinsp;${esc(r.industry_proxi)}</span>`);
 
     return `
       <div class="card">
@@ -813,15 +935,13 @@
               </div>
             </div>
 
-            <div class="small" style="margin-top:6px;">
-              ${r.hq ? `<span><b>HQ:</b> ${esc(r.hq)}</span>` : ""}
-              ${r.ownership ? ` &nbsp;·&nbsp; <span><b>Ownership:</b> ${esc(r.ownership)}</span>` : ""}
-              ${r.industry_proxi ? ` &nbsp;·&nbsp; <span><b>Industry:</b> ${esc(r.industry_proxi)}</span>` : ""}
-            </div>
+            ${txLine ? `<div class="tx-date">${esc(txLine)}</div>` : ""}
+
+            ${metaParts.length ? `<div class="card-meta">${metaParts.join(" &nbsp;·&nbsp; ")}</div>` : ""}
           </div>
 
           <div class="links">
-            ${website ? `<a class="chip" href="${esc(website)}" target="_blank" rel="noopener">Website</a>` : ""}
+            ${website  ? `<a class="chip" href="${esc(website)}"  target="_blank" rel="noopener">Website</a>`  : ""}
             ${linkedin ? `<a class="chip" href="${esc(linkedin)}" target="_blank" rel="noopener">LinkedIn</a>` : ""}
             <a class="chip" href="${esc(CSV_URL)}" target="_blank" rel="noopener">CSV</a>
           </div>
@@ -832,7 +952,7 @@
           <div class="kv-item"><div class="kv-k">Industry L2</div><div class="kv-v">${esc(r.industry_proxi || "—")}</div></div>
           <div class="kv-item"><div class="kv-k">FTE</div><div class="kv-v">${esc(r.fte || "—")}</div></div>
           <div class="kv-item"><div class="kv-k">FTE growth</div><div class="kv-v">${r.fte_growth ? fmtNum(asNum(r.fte_growth) * 100, 2) + '%' : "—"}</div></div>
-          <div class="kv-item"><div class="kv-k">MENTIONED AS COMP.</div><div class="kv-v">${esc(r.n_competitors || "—")}</div></div>
+          <div class="kv-item"><div class="kv-k">Mentioned as comp.</div><div class="kv-v">${esc(r.n_competitors || "—")}</div></div>
           <div class="kv-item"><div class="kv-k">Project index</div><div class="kv-v">${r.n_project_index ? fmtNum(asNum(r.n_project_index), 2) : "—"}</div></div>
 
           <div class="kv-item"><div class="kv-k">Transaction date</div><div class="kv-v">${esc(r.transaction_date || "—")}</div></div>
@@ -862,7 +982,7 @@
 
           <div class="barbox">
             <div class="bar-top">
-              <div class="bar-k">COMPANY PRIORITY</div>
+              <div class="bar-k">Company priority</div>
               <div class="bar-v">${pri == null ? "—" : esc(fmtNum(pri, 3))} (${priPct}%)</div>
             </div>
             <div class="bar"><div class="bar-fill" style="width:${priPct}%;"></div></div>
@@ -871,12 +991,12 @@
 
         <details class="section" open>
           <summary>
-            <span>Arguments (model output)</span>
-            <span class="small"><b>Stage:</b> ${args?.deal_stage ?? "—"}</span>
+            <span>Arguments</span>
+            <span class="section-meta">${args?.deal_stage ? esc(args.deal_stage) : "—"}</span>
           </summary>
           <div class="section-body">
-            ${argsSummary ? `<div class="small"><b>Summary:</b> ${esc(argsSummary)}</div>` : `<div class="small"><b>Summary:</b> —</div>`}
-            ${analyst ? `<div class="small" style="margin-top:6px;"><b>Analyst Agent comment:</b> ${esc(analyst)}</div>` : ""}
+            ${argsSummary ? `<blockquote class="pull-quote">${esc(argsSummary)}</blockquote>` : ""}
+            ${analyst ? `<div class="analyst-note"><span class="attr">Analyst note —</span> ${esc(analyst)}</div>` : ""}
 
             <div class="chips">
               <span class="mini">deal_role: ${esc(args?.deal_role ?? "—")}</span>
@@ -894,13 +1014,13 @@
 
         <details class="section">
           <summary>
-            <span>M&A signal snippets</span>
-            <span class="small">${esc(mna?.website ?? "")}</span>
+            <span>M&A Signal Snippets</span>
+            <span class="section-meta">${esc(mna?.website ?? "")}</span>
           </summary>
           <div class="section-body">
             <div class="small">
-              ${mna?.base_root ? `<b>Base:</b> ${esc(mna.base_root)} &nbsp;·&nbsp; ` : ""}
-              ${mna?.retrieved_at_utc ? `<b>Retrieved:</b> ${esc(mna.retrieved_at_utc)}` : ""}
+              ${mna?.base_root ? `<span class="attr">Base</span>&thinsp;${esc(mna.base_root)}${mna?.retrieved_at_utc ? " &nbsp;·&nbsp; " : ""}` : ""}
+              ${mna?.retrieved_at_utc ? `<span class="attr">Retrieved</span>&thinsp;${esc(mna.retrieved_at_utc)}` : ""}
             </div>
 
             <div class="subhead">Sources</div>
