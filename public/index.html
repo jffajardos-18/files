@@ -596,159 +596,188 @@
     }
 
     /* ── Priority breakdown ─────────────────────────────────── */
-    .bd-headline{
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 22px;
-      padding: 16px 18px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: #fafafa;
-    }
-    .bd-headline-num{
+    .bd-head{ margin-bottom: 2px; }
+    .bd-big{
       font-family: var(--display);
-      font-size: 34px;
+      font-size: 32px;
       font-weight: 700;
-      letter-spacing: -.5px;
       color: var(--navy);
-      line-height: 1;
-      white-space: nowrap;
+      letter-spacing: -1px;
+      line-height: 1.1;
     }
-    .bd-headline-bar{
-      flex: 1;
-      height: 6px;
-      border-radius: 999px;
-      background: #eeeeee;
-      overflow: hidden;
+    .bd-big-unit{
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0;
     }
-    .bd-headline-fill{
-      height: 100%;
-      border-radius: 999px;
-      background: var(--navy);
+    .bd-desc{
+      font-family: var(--serif);
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-top: 4px;
     }
 
-    .bd-table{
-      width: 100%;
-      border-collapse: collapse;
-      font-family: var(--sans);
-      font-size: 13px;
+    .bd-tiles{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 2px;
     }
-    .bd-table th{
-      text-align: left;
+    @media (max-width: 600px){ .bd-tiles{ grid-template-columns: repeat(2, 1fr); } }
+
+    .bd-tile{
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      background: #fff;
+    }
+    .bd-tile.high{ border-color: rgba(1,89,88,.25); }
+    .bd-tile.low { border-color: rgba(128,128,128,.2); background: #fcfcfc; }
+    .bd-tile-label{
+      font-family: var(--sans);
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: .35px;
-      color: var(--gray);
-      font-weight: 500;
-      padding: 0 10px 7px 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .bd-table td{
-      padding: 9px 10px 9px 0;
-      vertical-align: middle;
-      border-bottom: 1px solid #f4f4f4;
-      color: var(--ink);
-      line-height: 1.5;
-    }
-    .bd-table tr:last-child td{ border-bottom: none; }
-    .bd-table .bd-factor{
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .bd-table .bd-input{
       color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 3px;
     }
-    .bd-table .bd-input em{
-      font-style: italic;
-      color: var(--gray);
-    }
-    .bd-table .bd-pct-cell{
-      width: 80px;
-      text-align: right;
+    .bd-tile-score{
+      font-family: var(--display);
+      font-size: 22px;
       font-weight: 600;
-      font-size: 13px;
-      white-space: nowrap;
+      color: var(--ink);
+      letter-spacing: -.25px;
+      line-height: 1.15;
     }
-    .bd-pct-full{ color: var(--teal); }
-    .bd-pct-mid { color: var(--navy); }
-    .bd-pct-low { color: var(--gray); }
-    .bd-pct-zero{ color: #c4c4c4; }
+    .bd-tile.high .bd-tile-score{ color: var(--teal); }
+    .bd-tile.low  .bd-tile-score{ color: var(--gray); }
+    .bd-tile-why{
+      font-family: var(--serif);
+      font-size: 12px;
+      font-style: italic;
+      color: var(--muted);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+    .bd-tile-detail{
+      font-family: var(--sans);
+      font-size: 10.5px;
+      color: var(--gray);
+      margin-top: 2px;
+      letter-spacing: .1px;
+    }
 
-    .bd-bar-cell{
-      width: 90px;
+    .bd-comps{
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 2px;
     }
-    .bd-mini-bar{
-      height: 5px;
+    .bd-comp{
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+    .bd-comp-pts{
+      font-family: var(--display);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--navy);
+      text-align: right;
+      line-height: 1.2;
+      padding-top: 1px;
+    }
+    .bd-comp-max{
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--gray);
+      font-family: var(--sans);
+    }
+    .bd-comp-body{ min-width: 0; }
+    .bd-comp-top{
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .bd-comp-name{
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .bd-comp-wt{
+      font-family: var(--sans);
+      font-size: 10px;
+      color: var(--gray);
+      letter-spacing: .15px;
+    }
+    .bd-comp-bar{
+      height: 4px;
       border-radius: 999px;
-      background: #f0f0f0;
+      background: #f2f2f2;
+      border: 1px solid var(--line);
       overflow: hidden;
+      margin: 4px 0 3px;
     }
-    .bd-mini-fill{
+    .bd-comp-fill{
       height: 100%;
       border-radius: 999px;
       background: var(--royal);
     }
-    .bd-mini-fill.teal{ background: var(--teal); }
+    .bd-comp-fill.zero{ background: var(--line); }
+    .bd-comp-calc{
+      font-family: var(--serif);
+      font-size: 12px;
+      font-style: italic;
+      color: var(--gray);
+      line-height: 1.35;
+    }
 
-    .bd-contribs{
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .bd-contrib{
-      display: grid;
-      grid-template-columns: 1fr 80px 48px;
-      gap: 8px;
-      align-items: center;
-      padding: 6px 0;
-      border-bottom: 1px solid #f4f4f4;
-    }
-    .bd-contrib:last-child{ border-bottom: none; }
-    .bd-contrib-info{
+    .bd-engage{ margin-top: 2px; }
+    .bd-engage-row{
       font-family: var(--sans);
-      font-size: 12.5px;
-      line-height: 1.4;
-    }
-    .bd-contrib-name{
-      font-weight: 600;
-      color: var(--ink);
-    }
-    .bd-contrib-why{
+      font-size: 13px;
       color: var(--muted);
-      font-size: 12px;
+      line-height: 1.65;
     }
-    .bd-contrib-bar{ width: 80px; }
-    .bd-contrib-pct{
-      font-family: var(--sans);
+    .bd-engage-key{
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      font-weight: 500;
+      color: var(--gray);
+      margin-right: 6px;
+    }
+    .bd-engage-note{
       font-size: 12px;
-      font-weight: 600;
-      color: var(--navy);
-      text-align: right;
+      color: var(--gray);
     }
 
-    .bd-adjustments{
+    .bd-gates{
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
-      margin-top: 4px;
+      margin-top: 2px;
     }
-    .bd-adj{
+    .bd-gate{
       display: inline-flex;
       align-items: center;
-      gap: 5px;
       padding: 5px 10px;
       border-radius: 999px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
       border: 1px solid var(--line);
       background: #fff;
-      font-family: var(--sans);
-      font-size: 11.5px;
-      font-weight: 500;
       color: var(--muted);
     }
-    .bd-adj.pass{ border-color: var(--teal); color: var(--teal); background: rgba(1,89,88,.04); }
-    .bd-adj.warn{ border-color: #b87a00; color: #b87a00; background: #fffbf0; }
-    .bd-adj-key{ font-size: 9.5px; text-transform: uppercase; letter-spacing: .3px; opacity: .7; }
+    .bd-gate.pass{ border-color: var(--teal); color: var(--teal); background: rgba(1,89,88,.04); }
+    .bd-gate.warn{ border-color: #b87a00; color: #b87a00; background: #fffbf0; }
+    .bd-gate.fail{ border-color: #b00020; color: #b00020; background: #fff5f6; }
+
   </style>
 </head>
 
@@ -990,195 +1019,232 @@
   }
 
   function priorityBreakdownHTML(bd){
-    if (!bd) return `<div class="small">No breakdown available.</div>`;
+    if (!bd) return '<div class="small">No breakdown available.</div>';
 
     const inp  = bd.inputs || {};
     const norm = bd.normalized || {};
+    const comps = bd.b_components || {};
 
-    const pct = v => {
-      if (v == null || !Number.isFinite(v)) return "—";
-      const p = Math.round(v * 100);
-      return p + "%";
-    };
-    const pctCls = v => {
-      if (v == null) return "bd-pct-zero";
-      if (v >= 1)   return "bd-pct-full";
-      if (v >= 0.5) return "bd-pct-mid";
-      if (v > 0)    return "bd-pct-low";
-      return "bd-pct-zero";
-    };
+    const p = v => (v == null || !Number.isFinite(v)) ? "\u2014" : Math.round(v * 100) + "%";
 
-    // resolve which industry levels were used
-    const indUsed = inp.industry_proxi || inp.l2 || "—";
-    const indL1   = inp.l1_proxi || inp.l1 || "—";
-    const indDeep = inp.l4 || inp.l3 || inp.l2 || "—";
-    const indHeat = norm.heat_deep_norm || norm.heat_l2_proxi_norm || "—";
-
-    // ── 1. Headline score ─────────────────────────────────────
+    // ── 1. Headline ──────────────────────────────────────────
     const finalPct = Math.round((bd.priority_final ?? 0) * 100);
+    const basePts  = Math.round((bd.b_score ?? 0) * 100);
+    const boostPts = bd.e_ind
+      ? Math.max(0, Math.round(((bd.priority_raw ?? 0) - (bd.b_score ?? 0)) * 100))
+      : 0;
+
+    let descParts = [];
+    if (bd.z_mult === 0) {
+      descParts.push("Gated to zero \u2014 ownership is " + (norm.ownership_norm || "excluded"));
+    } else {
+      descParts.push("Base " + basePts + " out of 100");
+      if (boostPts > 0) descParts.push("engagement adds +" + boostPts);
+      const pp = [];
+      if ((bd.penalty_ownership_mult ?? 1) < 1) pp.push("missing ownership (\u00d70.5)");
+      if ((bd.penalty_recent_mult ?? 1) < 1) pp.push("recent transaction (\u00d70.5)");
+      descParts.push(pp.length ? "penalties: " + pp.join(", ") : "no penalties");
+    }
+
     const headlineHTML = `
-      <div class="bd-headline">
-        <div class="bd-headline-num">${finalPct}%</div>
-        <div style="flex:1">
-          <div class="bd-headline-bar">
-            <div class="bd-headline-fill" style="width:${finalPct}%"></div>
-          </div>
-        </div>
+      <div class="bd-head">
+        <div class="bd-big">${finalPct}<span class="bd-big-unit">%</span></div>
+        <div class="bd-desc">${esc(descParts.join(". ") + ".")}</div>
       </div>`;
 
-    // ── 2. Factor table ───────────────────────────────────────
+    // ── 2. Input factor tiles ────────────────────────────────
+
+    // Growth (G)
+    let growthWhy = "";
+    if (inp.fte != null && inp.fte_growth != null) {
+      const bk = inp.fte >= 1000 ? "1,000+" : inp.fte >= 500 ? "500\u2013999"
+        : inp.fte >= 200 ? "200\u2013499" : inp.fte >= 100 ? "100\u2013199"
+        : inp.fte >= 50 ? "50\u201399" : "< 50";
+      growthWhy = Number(inp.fte).toLocaleString() + " FTE (" + bk + "), "
+        + Math.round(inp.fte_growth * 100) + "% growth";
+    } else {
+      growthWhy = inp.fte_growth == null ? "No growth data" : Math.round((inp.fte_growth ?? 0) * 100) + "% growth";
+    }
+
+    // Industry tier (industry1_score)
+    const i1S = bd.industry1_score;
+    const tier = i1S >= 1 ? "Tier 1 (highest)" : i1S >= 0.8 ? "Tier 2"
+      : i1S >= 0.7 ? "Tier 3" : i1S >= 0.6 ? "Tier 4" : "unranked";
+    const i1Why = (inp.industry_proxi || "Unknown") + " \u2014 " + tier;
+
+    // Industry heat (industry2_score)
+    const deepH  = norm.heat_deep_norm;
+    const proxiH = norm.heat_l2_proxi_norm;
+    let i2Why = "", i2Path = "";
+    if (deepH === "very hot" || deepH === "hot") {
+      const lvl = inp.l4 ? "L4" : inp.l3 ? "L3" : inp.l2 ? "L2" : "L1";
+      const val = inp.l4 || inp.l3 || inp.l2 || inp.l1 || "\u2014";
+      i2Why  = deepH + " via deep taxonomy";
+      i2Path = lvl + ": " + val;
+    } else if (proxiH) {
+      i2Why  = proxiH + " via industry_proxi fallback";
+      i2Path = (inp.l1_proxi || "?") + " \u2192 " + (inp.industry_proxi || "?");
+    } else {
+      i2Why = "No taxonomy match";
+    }
+
+    // HQ & Geography
+    const hqOnly  = bd.hq_only_score ?? 0;
+    const geoOnly = bd.geo_only_score ?? 0;
+    let hqWhy = "";
+    if (hqOnly > 0 && hqOnly >= geoOnly) {
+      hqWhy = (inp.hq || "?") + " \u2014 " + (hqOnly >= 1 ? "US / Canada (full match)" : "European HQ market");
+    } else if (geoOnly > 0) {
+      hqWhy = (inp.geography || "?") + " \u2014 Americas / Europe region";
+    } else {
+      hqWhy = "Outside target geography";
+    }
+
+    // Projects
+    const nProj = inp.n_project ?? 0;
+    const pWhy = nProj + " project" + (nProj !== 1 ? "s" : "")
+      + (bd.p_index != null ? ", index " + p(bd.p_index) : "");
+
+    // Competitors
+    const nComp = inp.n_competitors ?? 0;
+    const kWhy = nComp + " competitor" + (nComp !== 1 ? "s" : "") + " (log-normalised)";
+
     const factors = [
-      {
-        factor: "Geography",
-        input:  `${esc(inp.hq || "—")} → ${esc(inp.geography || "—")}`,
-        signal: norm.geo_norm,
-        score:  bd.geo_only_score,
-      },
-      {
-        factor: "HQ + Geography",
-        input:  `${esc(inp.hq || "—")} in ${esc(inp.geography || "—")}`,
-        signal: null,
-        score:  bd.hq_geo_score,
-      },
-      {
-        factor: `Industry — L1`,
-        input:  esc(indL1),
-        signal: null,
-        score:  bd.industry1_score,
-      },
-      {
-        factor: `Industry — ${inp.l4 ? "L4" : inp.l3 ? "L3" : "L2"}`,
-        input:  esc(indDeep),
-        signal: indHeat,
-        score:  bd.industry2_score,
-      },
-      {
-        factor: "Competitors",
-        input:  `${inp.n_competitors ?? 0} mentioned`,
-        signal: null,
-        score:  bd.k_index != null ? bd.k_index : null,
-      },
-      {
-        factor: "Project index",
-        input:  `${inp.n_project ?? 0} projects`,
-        signal: null,
-        score:  bd.p_index,
-      },
-      {
-        factor: "FTE growth",
-        input:  inp.fte_growth != null ? `${Math.round(inp.fte_growth * 100)}%` : "—",
-        signal: null,
-        score:  bd.g_score,
-      },
-      {
-        factor: "Ownership",
-        input:  esc(inp.ownership || "—"),
-        signal: norm.ownership_norm,
-        score:  null,
-      },
+      { label: "Growth",          score: bd.g_score,        why: growthWhy },
+      { label: "Industry tier",   score: i1S,               why: i1Why },
+      { label: "Industry heat",   score: bd.industry2_score, why: i2Why, detail: i2Path },
+      { label: "HQ & Geography",  score: bd.hq_geo_score,   why: hqWhy },
+      { label: "Project activity", score: bd.p_index,        why: pWhy },
+      { label: "Competitors",     score: bd.k_index,         why: kWhy },
     ];
 
-    const tableRows = factors.map(f => {
-      const barW = f.score != null ? Math.round(Math.min(f.score, 1) * 100) : 0;
-      const barCls = f.score != null && f.score >= 1 ? "teal" : "";
-      const signalStr = f.signal
-        ? ` <em>— ${esc(f.signal)}</em>`
-        : "";
+    const tilesHTML = factors.map(f => {
+      const v   = f.score ?? 0;
+      const cls = v >= 0.9 ? " high" : v <= 0.05 ? " low" : "";
       return `
-        <tr>
-          <td class="bd-factor">${esc(f.factor)}</td>
-          <td class="bd-input">${f.input}${signalStr}</td>
-          <td class="bd-bar-cell">
-            <div class="bd-mini-bar"><div class="bd-mini-fill ${barCls}" style="width:${barW}%"></div></div>
-          </td>
-          <td class="bd-pct-cell ${pctCls(f.score)}">${f.score != null ? pct(f.score) : "—"}</td>
-        </tr>`;
+        <div class="bd-tile${cls}">
+          <div class="bd-tile-label">${esc(f.label)}</div>
+          <div class="bd-tile-score">${p(f.score)}</div>
+          <div class="bd-tile-why">${esc(f.why)}</div>
+          ${f.detail ? `<div class="bd-tile-detail">${esc(f.detail)}</div>` : ""}
+        </div>`;
     }).join("");
 
-    const tableHTML = `
-      <table class="bd-table">
-        <thead><tr>
-          <th>Factor</th>
-          <th>Input → Signal</th>
-          <th></th>
-          <th style="text-align:right">Score</th>
-        </tr></thead>
-        <tbody>${tableRows}</tbody>
-      </table>`;
-
-    // ── 3. Score contributions (what drove the base score) ────
-    const compAnnotation = (key) => {
-      switch(key){
-        case "g":                  return esc(inp.geography || "—");
-        case "hq_geo":             return `${esc(inp.hq || "—")} + ${esc(inp.geography || "—")}`;
-        case "k_index":            return `${inp.n_competitors ?? 0} competitors`;
-        case "p_index":            return `${inp.n_project ?? 0} projects`;
-        case "industry2":          return esc(indUsed);
-        case "g_x_hq_geo":         return `${esc(inp.geography || "—")} × ${esc(inp.hq || "—")}`;
-        case "g_x_industry1":      return `${esc(inp.geography || "—")} × ${esc(indL1)}`;
-        case "g_x_industry2":      return `${esc(inp.geography || "—")} × ${esc(indUsed)}`;
-        case "industry2_x_hq_geo": return `${esc(indUsed)} × ${esc(inp.hq || "—")}`;
-        default:                   return "";
-      }
-    };
-    const compLabel = (key) => {
-      const map = {
-        g: "Geography", hq_geo: "HQ + Geography", k_index: "Competitors",
-        p_index: "Project index", industry2: "Industry",
-        g_x_hq_geo: "Geography × HQ", g_x_industry1: "Geography × Industry L1",
-        g_x_industry2: "Geography × Industry", industry2_x_hq_geo: "Industry × HQ"
-      };
-      return map[key] || key.replace(/_/g, " ");
+    // ── 3. Base score composition ────────────────────────────
+    const COMP_META = {
+      g_x_industry2:      { wt: 50,  label: "Growth \u00d7 Industry heat", fkeys: ["g_score","industry2_score"] },
+      g_x_industry1:      { wt: 10,  label: "Growth \u00d7 Industry tier", fkeys: ["g_score","industry1_score"] },
+      g:                   { wt: 10,  label: "Growth alone",               fkeys: ["g_score"] },
+      industry2:           { wt: 10,  label: "Industry heat alone",        fkeys: ["industry2_score"] },
+      hq_geo:              { wt:  5,  label: "HQ & Geography alone",       fkeys: ["hq_geo_score"] },
+      g_x_hq_geo:          { wt:  5,  label: "Growth \u00d7 HQ/Geo",      fkeys: ["g_score","hq_geo_score"] },
+      industry2_x_hq_geo: { wt:  5,  label: "Industry heat \u00d7 HQ/Geo",fkeys: ["industry2_score","hq_geo_score"] },
+      p_index:             { wt: 2.5, label: "Project activity",           fkeys: ["p_index"] },
+      k_index:             { wt: 2.5, label: "Competitor signal",          fkeys: ["k_index"] },
     };
 
-    const bTotal  = bd.b_score || 0.0001;
-    const comps   = Object.entries(bd.b_components || {})
+    const FSHORT = {
+      g_score: "Growth", industry1_score: "Ind.\u2009tier",
+      industry2_score: "Ind.\u2009heat", hq_geo_score: "HQ/Geo",
+      p_index: "Projects", k_index: "Competitors",
+    };
+
+    const rawScores = {
+      g_score: bd.g_score, industry1_score: bd.industry1_score,
+      industry2_score: bd.industry2_score, hq_geo_score: bd.hq_geo_score,
+      p_index: bd.p_index, k_index: bd.k_index,
+    };
+
+    const compEntries = Object.entries(comps)
       .filter(([, v]) => typeof v === "number")
       .sort((a, b) => b[1] - a[1]);
 
-    const contribHTML = comps.length ? `
-      <div class="bd-contribs">
-        ${comps.map(([k, v]) => {
-          const share = Math.round((v / bTotal) * 100);
-          const ann = compAnnotation(k);
+    const maxComp = Math.max(...compEntries.map(([, v]) => v), 0.001);
+
+    const compHTML = compEntries.length
+      ? compEntries.map(([k, v]) => {
+          const meta = COMP_META[k] || { wt: "?", label: k.replace(/_/g, " "), fkeys: [] };
+          const barPct = Math.round((v / maxComp) * 100);
+          const contribution = Math.round(v * 100);
+          const maxPoss = meta.wt;
+          const calcLine = (meta.fkeys || []).map(fk =>
+            (FSHORT[fk] || fk) + " " + p(rawScores[fk])
+          ).join(" \u00d7 ");
           return `
-          <div class="bd-contrib">
-            <div class="bd-contrib-info">
-              <div class="bd-contrib-name">${esc(compLabel(k))}</div>
-              ${ann ? `<div class="bd-contrib-why">${ann}</div>` : ""}
-            </div>
-            <div class="bd-contrib-bar">
-              <div class="bd-mini-bar"><div class="bd-mini-fill" style="width:${share}%"></div></div>
-            </div>
-            <div class="bd-contrib-pct">${share}%</div>
-          </div>`;
-        }).join("")}
-      </div>` : `<div class="small">—</div>`;
+            <div class="bd-comp">
+              <div class="bd-comp-pts">${contribution}<span class="bd-comp-max">/${maxPoss}</span></div>
+              <div class="bd-comp-body">
+                <div class="bd-comp-top">
+                  <span class="bd-comp-name">${esc(meta.label)}</span>
+                  <span class="bd-comp-wt">${meta.wt}% weight</span>
+                </div>
+                <div class="bd-comp-bar"><div class="bd-comp-fill${v === 0 ? " zero" : ""}" style="width:${barPct}%"></div></div>
+                ${calcLine ? `<div class="bd-comp-calc">${esc(calcLine)}</div>` : ""}
+              </div>
+            </div>`;
+        }).join("")
+      : '<div class="small">\u2014</div>';
 
-    // ── 4. Adjustments ────────────────────────────────────────
-    const adjs = [
-      { label: "Overall penalty",   value: bd.penalty_mult },
-      { label: "Recency penalty",   value: bd.penalty_recent_mult },
-      { label: "Ownership penalty", value: bd.penalty_ownership_mult },
-      { label: "Zone multiplier",   value: bd.z_mult },
-    ].filter(m => m.value != null);
+    // ── 4. Engagement boost ──────────────────────────────────
+    let engageHTML = "";
+    if (bd.e_ind) {
+      const reason = (nProj >= 2)
+        ? (nProj + " projects \u2265 2 threshold")
+        : ((norm.ownership_norm || "?") + " ownership qualifies");
 
-    const adjsHTML = adjs.length ? `
-      <div class="bd-adjustments">
-        ${adjs.map(a => {
-          const cls = a.value >= 1 ? "pass" : "warn";
-          const lbl = a.value >= 1 ? "No penalty" : `×${Math.round(a.value * 100)}%`;
-          return `<span class="bd-adj ${cls}"><span class="bd-adj-key">${esc(a.label)}</span>${lbl}</span>`;
-        }).join("")}
-      </div>` : "";
+      let alphaNote = "Base " + p(bd.alpha_base) + " from project index";
+      if ((bd.k_index ?? 0) > 0) alphaNote += " + competitor signal";
+      const own = (norm.ownership_norm || "").toUpperCase();
+      if (nProj >= 2) {
+        if (["PE-BACKED","VC-BACKED"].includes(own))  alphaNote += ", +25% PE/VC boost";
+        else if (own === "ACQUIRED")                   alphaNote += ", +15% acquired boost";
+        else if (own === "PRIVATELY-HELD")              alphaNote += ", +10% privately-held boost";
+      } else {
+        if (["PE-BACKED","VC-BACKED"].includes(own))  alphaNote += ", \u00d780% PE/VC adj.";
+        else if (own === "ACQUIRED")                   alphaNote += ", \u00d770% acquired adj.";
+        else if (own === "PRIVATELY-HELD")              alphaNote += ", \u00d765% privately-held adj.";
+      }
+
+      engageHTML = `
+        <div class="bd-engage">
+          <div class="bd-engage-row"><span class="bd-engage-key">Engaged</span> Yes \u2014 ${esc(reason)}</div>
+          <div class="bd-engage-row"><span class="bd-engage-key">Alpha</span> ${p(bd.alpha)} <span class="bd-engage-note">(${esc(alphaNote)})</span></div>
+          <div class="bd-engage-row"><span class="bd-engage-key">Effect</span> +${boostPts} pts added to base <span class="bd-engage-note">(\u03b1 \u00d7 remaining headroom)</span></div>
+        </div>`;
+    } else {
+      engageHTML = '<div class="bd-engage"><div class="bd-engage-row">Not engaged \u2014 no boost applied.</div></div>';
+    }
+
+    // ── 5. Gates & penalties ─────────────────────────────────
+    const gates = [];
+    gates.push(bd.z_mult === 0
+      ? { label: "Ownership gate", cls: "fail", text: "Blocked (" + (norm.ownership_norm || "?") + ")" }
+      : { label: "Ownership gate", cls: "pass", text: "Pass" }
+    );
+    gates.push((bd.penalty_ownership_mult ?? 1) < 1
+      ? { label: "Missing ownership", cls: "warn", text: "\u00d70.5 penalty" }
+      : { label: "Ownership data", cls: "pass", text: "Present" }
+    );
+    gates.push((bd.penalty_recent_mult ?? 1) < 1
+      ? { label: "Recent transaction", cls: "warn", text: "\u00d70.5 (< 1 year)" }
+      : { label: "Transaction recency", cls: "pass", text: "No penalty" }
+    );
+
+    const gatesHTML = `
+      <div class="bd-gates">
+        ${gates.map(g => `<span class="bd-gate ${g.cls}">${esc(g.label)}: ${esc(g.text)}</span>`).join("")}
+      </div>`;
 
     return `
       ${headlineHTML}
-      <div class="subhead">Factor scores</div>
-      ${tableHTML}
-      <div class="subhead">What drove the base score</div>
-      ${contribHTML}
-      ${adjs.length ? `<div class="subhead">Adjustments</div>${adjsHTML}` : ""}
+      <div class="subhead">What the model sees</div>
+      <div class="bd-tiles">${tilesHTML}</div>
+      <div class="subhead">Base score composition \u2014 ${basePts} / 100</div>
+      <div class="bd-comps">${compHTML}</div>
+      <div class="subhead">Engagement boost</div>
+      ${engageHTML}
+      <div class="subhead">Gates & penalties</div>
+      ${gatesHTML}
     `;
   }
 
