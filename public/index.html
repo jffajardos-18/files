@@ -39,7 +39,8 @@
       min-height: 100%;
       background: var(--bg);
       color: var(--ink);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+      line-height: 1.55;
     }
 
     a{ color: inherit; text-decoration: none; }
@@ -56,9 +57,9 @@
     }
 
     .topbar-inner{
-      max-width: 1160px;
+      max-width: 1040px;
       margin: 0 auto;
-      padding: 14px 18px;
+      padding: 18px 28px;
       display: flex;
       gap: 14px;
       align-items: center;
@@ -74,15 +75,17 @@
 
     .brand h1{
       margin: 0;
-      font-size: 16px;
-      letter-spacing: .2px;
-      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -.01em;
+      font-weight: 650;
+      line-height: 1.15;
     }
 
     .brand .sub{
-      font-size: 12px;
+      font-size: 13px;
       color: rgba(255,255,255,.85);
       white-space: nowrap;
+      font-weight: 500;
     }
 
     .controls{
@@ -93,6 +96,7 @@
     }
 
     .input{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: #fff;
       color: #000;
       border: 1px solid var(--line);
@@ -107,6 +111,7 @@
     }
 
     .btn{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       border: 1px solid rgba(255,255,255,.25);
       background: transparent;
       color: #fff;
@@ -120,6 +125,7 @@
     .btn:hover{ border-color: rgba(255,255,255,.45); }
 
     .pill{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       display:inline-flex;
       align-items:center;
       gap: 8px;
@@ -134,9 +140,9 @@
     }
 
     .main{
-      max-width: 1160px;
+      max-width: 1040px;
       margin: 0 auto;
-      padding: 18px;
+      padding: 34px 28px 40px;
     }
 
     .meta-row{
@@ -145,13 +151,15 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      margin: 10px 0 14px;
+      margin: 0 0 26px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
     }
 
     .meta{
       color: var(--muted);
-      font-size: 12px;
-      line-height: 1.4;
+      font-size: 13px;
+      line-height: 1.5;
     }
 
     .meta a{
@@ -174,20 +182,20 @@
     .grid{
       display:flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 20px;
     }
 
     .card{
       border: 1px solid var(--line);
-      border-radius: var(--radius);
+      border-radius: 8px;
       background: #fff;
       overflow: hidden;
     }
 
     .card-head{
-      padding: 14px 14px 12px;
+      padding: 24px 24px 18px;
       display:flex;
-      gap: 12px;
+      gap: 20px;
       align-items: flex-start;
       justify-content: space-between;
       flex-wrap: wrap;
@@ -196,27 +204,45 @@
 
     .titleblock{
       min-width: 260px;
-      flex: 1 1 520px;
+      flex: 1 1 640px;
     }
 
     .title-row{
       display:flex;
       gap: 10px;
-      align-items: center;
+      align-items: baseline;
       flex-wrap: wrap;
+    }
+
+    .dateline{
+      margin: 0 0 10px;
+      font-size: 12px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
     }
 
     .company{
       margin: 0;
-      font-size: 16px;
-      font-weight: 900;
-      letter-spacing: .1px;
+      font-size: 30px;
+      font-weight: 650;
+      letter-spacing: -.015em;
+      line-height: 1.12;
       color: var(--ink);
+    }
+
+    .deck{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+      max-width: 74ch;
     }
 
     .badges{
       display:flex;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
       flex-wrap: wrap;
     }
@@ -225,13 +251,14 @@
       display:inline-flex;
       align-items:center;
       gap:6px;
-      padding: 4px 10px;
+      padding: 3px 9px;
       border-radius: 999px;
-      font-size: 12px;
-      font-weight: 900;
+      font-size: 11px;
+      font-weight: 700;
       border: 1px solid transparent;
-      letter-spacing: .2px;
+      letter-spacing: .03em;
       white-space: nowrap;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
     .badge.label-HOT{ background: var(--royal); color:#fff; }
@@ -250,10 +277,18 @@
     .links{
       display:flex;
       gap: 8px;
-      align-items: center;
+      align-items: flex-start;
       flex-wrap: wrap;
       justify-content: flex-end;
       flex: 0 0 auto;
+    }
+
+    .links-group{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .chip{
@@ -266,31 +301,83 @@
       padding: 7px 10px;
       border-radius: 10px;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 700;
       text-decoration: none;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
     .chip:hover{
       border-color: rgba(0,42,216,.45);
       text-decoration: none;
     }
 
+    .data-callout{
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      min-width: 220px;
+      background: #fff;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    .data-callout .k{
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-bottom: 5px;
+    }
+    .data-callout .v{
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.45;
+      font-weight: 600;
+    }
+
+    .narrative{
+      padding: 16px 24px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .body-copy{
+      font-size: 16px;
+      color: var(--ink);
+      max-width: 78ch;
+    }
+
+    .pull-quote{
+      margin: 16px 0 0;
+      border-left: 2px solid var(--line);
+      padding: 2px 0 2px 14px;
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.55;
+      font-style: italic;
+      max-width: 72ch;
+    }
+
+    .closing-line{
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 74ch;
+    }
+
     .kv{
-      padding: 12px 14px 14px;
+      padding: 18px 24px;
       display:grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
     }
     @media (max-width: 1100px){
-      .kv{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .kv{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 720px){
-      .kv{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .kv{ grid-template-columns: 1fr; }
     }
 
     .kv-item{
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px 10px 9px;
+      border-radius: 8px;
+      padding: 12px;
       background: #fff;
     }
     .kv-k{
@@ -302,26 +389,23 @@
       margin-bottom: 5px;
     }
     .kv-v{
-      font-size: 13px;
-      font-weight: 900;
+      font-size: 15px;
+      font-weight: 600;
       color: #000;
       word-break: break-word;
     }
 
     .bars{
-      padding: 0 14px 14px;
+      padding: 0 24px 20px;
       display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-    @media (max-width: 720px){
-      .bars{ grid-template-columns: 1fr; }
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
 
     .barbox{
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 12px;
       background: #fff;
     }
 
@@ -368,44 +452,45 @@
 
     details.section > summary{
       list-style: none;
-      padding: 12px 14px;
+      padding: 14px 24px;
       cursor: pointer;
       display:flex;
       align-items:center;
       justify-content: space-between;
       gap: 10px;
-      font-weight: 900;
+      font-weight: 650;
       color: var(--navy);
       user-select: none;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      letter-spacing: .01em;
     }
     details.section > summary::-webkit-details-marker{ display:none; }
 
     .section-body{
-      padding: 0 14px 14px;
+      padding: 0 24px 18px;
       color: #000;
     }
 
     .small{
-      font-size: 12px;
+      font-size: 14px;
       color: var(--muted);
-      line-height: 1.45;
+      line-height: 1.6;
     }
 
     .subhead{
-      margin: 12px 0 6px;
-      font-weight: 900;
+      margin: 16px 0 8px;
+      font-weight: 600;
       color: var(--ink);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .15px;
+      font-size: 14px;
+      letter-spacing: .01em;
     }
 
     .list{
       margin: 6px 0 0;
-      padding-left: 16px;
+      padding-left: 18px;
       color: #000;
-      font-size: 13px;
-      line-height: 1.45;
+      font-size: 15px;
+      line-height: 1.55;
     }
     .list li{ margin: 6px 0; }
 
@@ -418,23 +503,23 @@
 
     .src-item{
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 12px;
       background: #fff;
     }
 
     .src-title{
-      font-weight: 900;
-      font-size: 13px;
+      font-weight: 600;
+      font-size: 14px;
       color: var(--ink);
       margin-bottom: 2px;
       word-break: break-word;
     }
 
     .src-why{
-      font-size: 12px;
+      font-size: 13px;
       color: var(--muted);
-      line-height: 1.45;
+      line-height: 1.55;
     }
 
     .chips{
@@ -449,11 +534,12 @@
       align-items:center;
       padding: 4px 8px;
       border-radius: 999px;
-      font-size: 12px;
-      font-weight: 900;
+      font-size: 11px;
+      font-weight: 700;
       border: 1px solid var(--line);
       background: #fff;
       color: var(--navy);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
     .loadmore{
@@ -463,6 +549,7 @@
     }
 
     .loadmore button{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: var(--royal);
       border: 1px solid rgba(0,42,216,.25);
       color: #fff;
@@ -475,10 +562,10 @@
     .loadmore button:hover{ background: #001fb0; }
 
     .footer-note{
-      margin: 14px 0 0;
-      font-size: 12px;
+      margin: 22px 0 0;
+      font-size: 13px;
       color: var(--muted);
-      line-height: 1.45;
+      line-height: 1.6;
     }
   </style>
 </head>
@@ -624,6 +711,14 @@
   function fmtNum(n, digits=2){
     if (n === null || n === undefined || !Number.isFinite(n)) return "";
     return n.toFixed(digits);
+  }
+
+  function fmtDate(raw){
+    const s = String(raw ?? "").trim();
+    if (!s) return "";
+    const d = new Date(s);
+    if (Number.isNaN(d.getTime())) return s;
+    return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
   }
 
   function clamp01(n){
@@ -799,32 +894,63 @@
 
     const argsSummary = String(args?.summary ?? "").trim();
     const analyst = String(args?.agent_analyst_comment ?? "").trim();
+    const dateline = fmtDate(r.transaction_date) || "Date not disclosed";
+
+    const deckText =
+      argsSummary ||
+      analyst ||
+      [
+        r.hq ? `Headquartered in ${String(r.hq).trim()}` : "",
+        r.industry_proxi ? `active in ${String(r.industry_proxi).trim()}` : "",
+        r.transaction_type ? `with a ${String(r.transaction_type).trim()} context` : ""
+      ].filter(Boolean).join(", ") ||
+      "Profile assembled from source-linked signals and model annotations.";
+
+    const bodyBits = [
+      r.hq ? `HQ: ${esc(r.hq)}` : "",
+      r.ownership ? `Ownership: ${esc(r.ownership)}` : "",
+      r.industry_proxi ? `Industry: ${esc(r.industry_proxi)}` : "",
+      r.fte ? `FTE: ${esc(r.fte)}` : "",
+      r.transaction_type ? `Transaction type: ${esc(r.transaction_type)}` : ""
+    ].filter(Boolean);
+
+    const bodyLine = bodyBits.length ? bodyBits.join(" · ") : "Core company descriptors are limited in the current record.";
+    const quoteText = String(reasons[0]?.text ?? "").trim();
+    const closingLine = label === "UNKNOWN"
+      ? "Classification remains provisional pending additional evidence."
+      : `Current classification: ${esc(label)}.`;
 
     return `
       <div class="card">
         <div class="card-head">
           <div class="titleblock">
+            <div class="dateline">${esc(dateline)}</div>
             <div class="title-row">
               <h2 class="company">${esc(company)}</h2>
               <div class="badges">
                 <span class="badge ${esc(labelClass)}">${esc(label)}</span>
-                <span class="badge metric">hot_score: ${hot == null ? "—" : esc(fmtNum(hot, 3))}</span>
-                <span class="badge metric">priority: ${pri == null ? "—" : esc(fmtNum(pri, 3))}</span>
               </div>
             </div>
-
-            <div class="small" style="margin-top:6px;">
-              ${r.hq ? `<span><b>HQ:</b> ${esc(r.hq)}</span>` : ""}
-              ${r.ownership ? ` &nbsp;·&nbsp; <span><b>Ownership:</b> ${esc(r.ownership)}</span>` : ""}
-              ${r.industry_proxi ? ` &nbsp;·&nbsp; <span><b>Industry:</b> ${esc(r.industry_proxi)}</span>` : ""}
-            </div>
+            <div class="deck">${esc(deckText)}</div>
           </div>
 
           <div class="links">
-            ${website ? `<a class="chip" href="${esc(website)}" target="_blank" rel="noopener">Website</a>` : ""}
-            ${linkedin ? `<a class="chip" href="${esc(linkedin)}" target="_blank" rel="noopener">LinkedIn</a>` : ""}
-            <a class="chip" href="${esc(CSV_URL)}" target="_blank" rel="noopener">CSV</a>
+            <div class="data-callout">
+              <div class="k">Data callout</div>
+              <div class="v">Hot score ${hot == null ? "—" : esc(fmtNum(hot, 3))} · Priority ${pri == null ? "—" : esc(fmtNum(pri, 3))}</div>
+            </div>
+            <div class="links-group">
+              ${website ? `<a class="chip" href="${esc(website)}" target="_blank" rel="noopener">Website</a>` : ""}
+              ${linkedin ? `<a class="chip" href="${esc(linkedin)}" target="_blank" rel="noopener">LinkedIn</a>` : ""}
+              <a class="chip" href="${esc(CSV_URL)}" target="_blank" rel="noopener">CSV</a>
+            </div>
           </div>
+        </div>
+
+        <div class="narrative">
+          <div class="body-copy">${bodyLine}</div>
+          ${quoteText ? `<div class="pull-quote">${esc(quoteText)}</div>` : ""}
+          <div class="closing-line">${closingLine}</div>
         </div>
 
         <div class="kv">
@@ -872,11 +998,11 @@
         <details class="section" open>
           <summary>
             <span>Arguments (model output)</span>
-            <span class="small"><b>Stage:</b> ${args?.deal_stage ?? "—"}</span>
+            <span class="small">Stage: ${esc(args?.deal_stage ?? "—")}</span>
           </summary>
           <div class="section-body">
-            ${argsSummary ? `<div class="small"><b>Summary:</b> ${esc(argsSummary)}</div>` : `<div class="small"><b>Summary:</b> —</div>`}
-            ${analyst ? `<div class="small" style="margin-top:6px;"><b>Analyst Agent comment:</b> ${esc(analyst)}</div>` : ""}
+            ${argsSummary ? `<div class="small">Summary: ${esc(argsSummary)}</div>` : `<div class="small">Summary: —</div>`}
+            ${analyst ? `<div class="small" style="margin-top:6px;">Analyst agent comment: ${esc(analyst)}</div>` : ""}
 
             <div class="chips">
               <span class="mini">deal_role: ${esc(args?.deal_role ?? "—")}</span>
@@ -899,8 +1025,8 @@
           </summary>
           <div class="section-body">
             <div class="small">
-              ${mna?.base_root ? `<b>Base:</b> ${esc(mna.base_root)} &nbsp;·&nbsp; ` : ""}
-              ${mna?.retrieved_at_utc ? `<b>Retrieved:</b> ${esc(mna.retrieved_at_utc)}` : ""}
+              ${mna?.base_root ? `Base: ${esc(mna.base_root)} &nbsp;·&nbsp; ` : ""}
+              ${mna?.retrieved_at_utc ? `Retrieved: ${esc(mna.retrieved_at_utc)}` : ""}
             </div>
 
             <div class="subhead">Sources</div>
