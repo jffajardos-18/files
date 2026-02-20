@@ -863,9 +863,7 @@
       ? `<ul class="list">${
           reasons.map(x => {
             const t = esc(x?.text ?? "");
-            const u = String(x?.source_url ?? "").trim();
-            const link = u ? ` <a href="${esc(u)}" target="_blank" rel="noopener">source</a>` : "";
-            return `<li>${t}${link}</li>`;
+            return `<li>${t}</li>`;
           }).join("")
         }</ul>`
       : `<div class="small">No reasons provided.</div>`;
@@ -996,7 +994,7 @@
           </summary>
           <div class="section-body">
             ${argsSummary ? `<blockquote class="pull-quote">${esc(argsSummary)}</blockquote>` : ""}
-            ${analyst ? `<div class="analyst-note"><span class="attr">Analyst note —</span> ${esc(analyst)}</div>` : ""}
+            ${analyst ? `<div class="analyst-note"><span class="attr">Agent Analyst note —</span> ${esc(analyst)}</div>` : ""}
 
             <div class="chips">
               <span class="mini">deal_role: ${esc(args?.deal_role ?? "—")}</span>
